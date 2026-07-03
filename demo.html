@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TooltipAI — Interactive Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #0a0f1a; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .tooltip-container { position: relative; }
+        .tooltip-box {
+            position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%);
+            opacity: 0; pointer-events: none; transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+            z-index: 50; width: 320px;
+        }
+        .tooltip-box::after {
+            content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+            border: 8px solid transparent; border-top-color: rgba(59,130,246,0.3);
+        }
+        .tooltip-box.visible { opacity: 1; pointer-events: auto; }
+        .hoverable { cursor: pointer; transition: all 0.2s ease; position: relative; }
+        .hoverable:hover { outline: 2px solid rgba(59,130,246,0.5); outline-offset: 2px; }
+        .hoverable:hover .tooltip-box { opacity: 1; }
+        .category-badge { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .cat-audio { background: rgba(59,130,246,0.2); color: #93c5fd; }
+        .cat-dev { background: rgba(34,197,94,0.2); color: #86efac; }
+        .cat-creative { background: rgba(236,72,153,0.2); color: #f9a8d4; }
+        .cat-browser { background: rgba(234,179,8,0.2); color: #fde047; }
+        .cat-terminal { background: rgba(168,85,247,0.2); color: #d8b4fe; }
+        .glow-blue { box-shadow: 0 0 30px rgba(59,130,246,0.15), inset 0 0 30px rgba(59,130,246,0.05); }
+        .app-tab { transition: all 0.2s ease; }
+        .app-tab.active { background: rgba(59,130,246,0.15); border-color: rgba(59,130,246,0.5); color: #93c5fd; }
+        .knob { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #374151, #1f2937); border: 2px solid #4b5563; cursor: pointer; position: relative; transition: all 0.2s ease; }
+        .knob::after { content: ''; position: absolute; top: 4px; left: 50%; transform: translateX(-50%); width: 2px; height: 12px; background: #9ca3af; border-radius: 1px; }
+        .knob:hover { border-color: #3b82f6; box-shadow: 0 0 15px rgba(59,130,246,0.3); }
+        .slider-track { width: 100%; height: 6px; background: #1f2937; border-radius: 3px; position: relative; }
+        .slider-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); border-radius: 3px; }
+        .slider-thumb { width: 16px; height: 16px; border-radius: 50%; background: white; position: absolute; top: 50%; transform: translateY(-50%); box-shadow: 0 2px 6px rgba(0,0,0,0.3); }
+        .waveform { display: flex; align-items: end; gap: 2px; height: 40px; }
+        .waveform-bar { width: 3px; background: linear-gradient(to top, #3b82f6, #8b5cf6); border-radius: 1px; transition: height 0.3s ease; }
+        .spectrum { display: flex; align-items: end; gap: 1px; height: 40px; }
+        .spectrum-bar { width: 6px; border-radius: 2px 2px 0 0; transition: height 0.3s ease; }
+        .code-line { padding: 2px 0; }
+        .code-line .keyword { color: #c084fc; }
+        .code-line .string { color: #86efac; }
+        .code-line .comment { color: #6b7280; }
+        .code-line .number { color: #fbbf24; }
+        .code-line .function { color: #60a5fa; }
+    </style>
+</head>
+<body class="text-white min-h-screen">
+
+<!-- Nav -->
+<nav class="fixed top-0 w-full z-50 bg-[#0a0f1a]/80 backdrop-blur-xl border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-6 py-3 flex justify-between items-center">
+        <a href="index.html" class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-700 rounded-lg flex items-center justify-center font-bold text-xs">T</div>
+            <span class="font-bold">Tooltip<span class="text-blue-400">AI</span></span>
+        </a>
+        <span class="text-sm text-gray-500">Interactive Demo</span>
+    </div>
+</nav>
+
+<main class="pt-20 pb-16 max-w-6xl mx-auto px-6">
+    <!-- Header -->
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-black mb-3">Try TooltipAI Right Now</h1>
+        <p class="text-gray-400 text-lg">Hover over any element below to see smart tooltips in action</p>
+    </div>
+
+    <!-- App Simulator -->
+    <div class="grid lg:grid-cols-4 gap-6">
+        <!-- Sidebar: App Selector -->
+        <div class="lg:col-span-1 space-y-3">
+            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Choose an App</div>
+            <button onclick="switchApp('ableton')" class="app-tab active w-full text-left glass rounded-xl p-3 flex items-center gap-3 border border-transparent" data-app="ableton">
+                <span class="text-xl">&#127925;</span>
+                <div><div class="text-sm font-semibold">Ableton Live</div><div class="text-xs text-gray-500">Audio Production</div></div>
+            </button>
+            <button onclick="switchApp('vscode')" class="app-tab w-full text-left glass rounded-xl p-3 flex items-center gap-3 border border-transparent" data-app="vscode">
+                <span class="text-xl">&#128187;</span>
+                <div><div class="text-sm font-semibold">VS Code</div><div class="text-xs text-gray-500">Code Editor</div></div>
+            </button>
+            <button onclick="switchApp('blender')" class="app-tab w-full text-left glass rounded-xl p-3 flex items-center gap-3 border border-transparent" data-app="blender">
+                <span class="text-xl">&#127912;</span>
+                <div><div class="text-sm font-semibold">Blender</div><div class="text-xs text-gray-500">3D Modeling</div></div>
+            </button>
+            <button onclick="switchApp('chrome')" class="app-tab w-full text-left glass rounded-xl p-3 flex items-center gap-3 border border-transparent" data-app="chrome">
+                <span class="text-xl">&#127760;</span>
+                <div><div class="text-sm font-semibold">Chrome</div><div class="text-xs text-gray-500">Browser</div></div>
+            </button>
+            <button onclick="switchApp('terminal')" class="app-tab w-full text-left glass rounded-xl p-3 flex items-center gap-3 border border-transparent" data-app="terminal">
+                <span class="text-xl">&#128187;</span>
+                <div><div class="text-sm font-semibold">Terminal</div><div class="text-xs text-gray-500">Command Line</div></div>
+            </button>
+
+            <div class="mt-6 p-4 glass rounded-xl">
+                <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">How It Works</div>
+                <ol class="text-xs text-gray-400 space-y-2">
+                    <li class="flex gap-2"><span class="text-blue-400 font-bold">1</span> Hover over any element</li>
+                    <li class="flex gap-2"><span class="text-blue-400 font-bold">2</span> TooltipAI detects it via UIA</li>
+                    <li class="flex gap-2"><span class="text-blue-400 font-bold">3</span> AI generates context</li>
+                    <li class="flex gap-2"><span class="text-blue-400 font-bold">4</span> Smart tooltip appears</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Main: App Window -->
+        <div class="lg:col-span-3">
+            <div class="glass rounded-2xl overflow-hidden glow-blue">
+                <!-- Window Title Bar -->
+                <div class="flex items-center gap-2 px-4 py-2 bg-white/5 border-b border-white/5">
+                    <div class="flex gap-1.5">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <span id="window-title" class="text-xs text-gray-400 ml-2 mono">Ableton Live 12 Suite</span>
+                </div>
+
+                <!-- App Content -->
+                <div id="app-content" class="p-6 min-h-[500px]">
+                    <!-- Content injected by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+const APPS = {
+    ableton: {
+        title: 'Ableton Live 12 Suite',
+        category: 'audio',
+        categoryLabel: 'AUDIO',
+        color: '#3b82f6',
+        content: `
+            <div class="space-y-4">
+                <!-- Mixer Channel -->
+                <div class="flex items-center gap-4 p-4 bg-[#1a1a2e] rounded-xl">
+                    <div class="hoverable flex flex-col items-center gap-2" data-tooltip="audio-track">
+                        <div class="w-12 h-32 bg-[#2d2d44] rounded-lg relative overflow-hidden">
+                            <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-green-500 to-green-400 opacity-60"></div>
+                            <div class="absolute top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-white/30 rounded"></div>
+                        </div>
+                        <span class="text-xs text-gray-400 mono">1 Audio</span>
+                    </div>
+                    <div class="hoverable flex flex-col items-center gap-2" data-tooltip="audio-fader">
+                        <div class="w-12 h-32 bg-[#2d2d44] rounded-lg relative overflow-hidden">
+                            <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-blue-500 to-blue-400 opacity-60"></div>
+                        </div>
+                        <span class="text-xs text-gray-400 mono">2 MIDI</span>
+                    </div>
+                    <div class="flex-1"></div>
+                    <div class="hoverable" data-tooltip="audio-knob-threshold">
+                        <div class="knob" style="transform: rotate(45deg)"></div>
+                        <div class="text-xs text-gray-500 text-center mt-1 mono">Threshold</div>
+                    </div>
+                    <div class="hoverable" data-tooltip="audio-knob-ratio">
+                        <div class="knob" style="transform: rotate(120deg)"></div>
+                        <div class="text-xs text-gray-500 text-center mt-1 mono">Ratio</div>
+                    </div>
+                    <div class="hoverable" data-tooltip="audio-knob-release">
+                        <div class="knob" style="transform: rotate(-30deg)"></div>
+                        <div class="text-xs text-gray-500 text-center mt-1 mono">Release</div>
+                    </div>
+                </div>
+                <!-- Device Chain -->
+                <div class="flex gap-2 p-3 bg-[#1a1a2e] rounded-xl">
+                    <div class="hoverable px-4 py-2 bg-[#2d2d44] rounded-lg border border-blue-500/30" data-tooltip="audio-device-compressor">
+                        <span class="text-xs font-semibold text-blue-300">Compressor</span>
+                    </div>
+                    <div class="hoverable px-4 py-2 bg-[#2d2d44] rounded-lg" data-tooltip="audio-device-eq">
+                        <span class="text-xs text-gray-400">EQ Eight</span>
+                    </div>
+                    <div class="hoverable px-4 py-2 bg-[#2d2d44] rounded-lg" data-tooltip="audio-device-reverb">
+                        <span class="text-xs text-gray-400">Reverb</span>
+                    </div>
+                    <div class="hoverable px-4 py-2 bg-[#2d2d44] rounded-lg" data-tooltip="audio-device-delay">
+                        <span class="text-xs text-gray-400">Simple Delay</span>
+                    </div>
+                </div>
+            </div>
+        `
+    },
+    vscode: {
+        title: 'Visual Studio Code',
+        category: 'dev',
+        categoryLabel: 'DEVELOPMENT',
+        color: '#22c55e',
+        content: `
+            <div class="flex gap-4">
+                <!-- File Explorer -->
+                <div class="w-48 bg-[#1a1a2e] rounded-xl p-3 space-y-1">
+                    <div class="hoverable px-2 py-1 rounded text-xs text-gray-300 flex items-center gap-2" data-tooltip="dev-folder">
+                        <span>&#128193;</span> src
+                    </div>
+                    <div class="hoverable px-2 py-1 rounded text-xs text-green-400 flex items-center gap-2 ml-4" data-tooltip="dev-file-active">
+                        <span>&#128196;</span> server.py
+                    </div>
+                    <div class="px-2 py-1 rounded text-xs text-gray-500 flex items-center gap-2 ml-4">
+                        <span>&#128196;</span> handlers.py
+                    </div>
+                    <div class="px-2 py-1 rounded text-xs text-gray-500 flex items-center gap-2 ml-4">
+                        <span>&#128196;</span> config.py
+                    </div>
+                    <div class="hoverable px-2 py-1 rounded text-xs text-gray-300 flex items-center gap-2" data-tooltip="dev-folder-tests">
+                        <span>&#128193;</span> tests
+                    </div>
+                </div>
+                <!-- Code Editor -->
+                <div class="flex-1 bg-[#1e1e2e] rounded-xl p-4 mono text-sm">
+                    <div class="code-line hoverable" data-tooltip="dev-code-import">
+                        <span class="keyword">import</span> asyncio
+                    </div>
+                    <div class="code-line hoverable" data-tooltip="dev-code-import2">
+                        <span class="keyword">from</span> handlers <span class="keyword">import</span> HANDLERS
+                    </div>
+                    <div class="code-line"></div>
+                    <div class="code-line hoverable" data-tooltip="dev-code-async">
+                        <span class="keyword">async def</span> <span class="function">handle_message</span>(msg, writer):
+                    </div>
+                    <div class="code-line">    msg_type = msg.<span class="function">get</span>(<span class="string">"type"</span>)</div>
+                    <div class="code-line"></div>
+                    <div class="code-line">    <span class="comment"># Route to handler</span></div>
+                    <div class="code-line hoverable" data-tooltip="dev-code-handler">
+                        handler = HANDLERS.<span class="function">get</span>(msg_type)</div>
+                    <div class="code-line">    <span class="keyword">if</span> handler:</div>
+                    <div class="code-line">        <span class="keyword">await</span> handler(msg, writer)</div>
+                    <div class="code-line"></div>
+                    <div class="code-line hoverable" data-tooltip="dev-code-annotation">
+                        <span class="keyword">@dataclass</span>
+                    </div>
+                    <div class="code-line"><span class="keyword">class</span> <span class="function">Session</span>:</div>
+                    <div class="code-line">    user_id: <span class="function">str</span></div>
+                    <div class="code-line">    token: <span class="function">str</span></div>
+                    <div class="code-line">    expires: <span class="function">datetime</span> = <span class="function">field</span>(default_factory=datetime.now)</div>
+                </div>
+            </div>
+        `
+    },
+    blender: {
+        title: 'Blender 4.1',
+        category: 'creative',
+        categoryLabel: 'CREATIVE',
+        color: '#ec4899',
+        content: `
+            <div class="flex gap-4">
+                <!-- 3D Viewport -->
+                <div class="flex-1 bg-[#1a1a2e] rounded-xl p-4 relative">
+                    <div class="absolute inset-4 flex items-center justify-center">
+                        <div class="w-32 h-32 bg-gradient-to-br from-gray-600 to-gray-800 rounded-lg transform rotate-12 shadow-xl border border-gray-600"></div>
+                    </div>
+                    <div class="absolute top-3 left-3 text-xs text-gray-500">Object Mode</div>
+                    <div class="absolute bottom-3 left-3 text-xs text-gray-500">Vertices: 8 | Faces: 6</div>
+                </div>
+                <!-- Properties Panel -->
+                <div class="w-64 space-y-3">
+                    <div class="hoverable bg-[#1a1a2e] rounded-xl p-3" data-tooltip="creative-modifier">
+                        <div class="text-xs font-semibold text-gray-300 mb-2">&#9881; Modifiers</div>
+                        <div class="px-2 py-1 bg-[#2d2d44] rounded text-xs text-pink-300">Subdivision Surface</div>
+                    </div>
+                    <div class="hoverable bg-[#1a1a2e] rounded-xl p-3" data-tooltip="creative-material">
+                        <div class="text-xs font-semibold text-gray-300 mb-2">&#127912; Material</div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-6 h-6 rounded bg-gradient-to-br from-blue-500 to-purple-600"></div>
+                            <span class="text-xs text-gray-400">Principled BSDF</span>
+                        </div>
+                    </div>
+                    <div class="hoverable bg-[#1a1a2e] rounded-xl p-3" data-tooltip="creative-render">
+                        <div class="text-xs font-semibold text-gray-300 mb-2">&#128247; Render Settings</div>
+                        <div class="text-xs text-gray-500">Cycles | 128 samples</div>
+                    </div>
+                    <div class="hoverable bg-[#1a1a2e] rounded-xl p-3" data-tooltip="creative-physics">
+                        <div class="text-xs font-semibold text-gray-300 mb-2">&#127759; Physics</div>
+                        <div class="text-xs text-gray-500">Rigid Body: Active</div>
+                    </div>
+                </div>
+            </div>
+        `
+    },
+    chrome: {
+        title: 'Google Chrome',
+        category: 'browser',
+        categoryLabel: 'BROWSER',
+        color: '#eab308',
+        content: `
+            <div class="space-y-3">
+                <!-- Tab Bar -->
+                <div class="flex gap-1">
+                    <div class="hoverable px-4 py-2 bg-[#1a1a2e] rounded-t-lg text-xs text-gray-300 border-b-2 border-blue-500" data-tooltip="browser-tab">
+                        GitHub - Tooltip AI
+                    </div>
+                    <div class="px-4 py-2 bg-[#0f0f1a] rounded-t-lg text-xs text-gray-500">Stack Overflow</div>
+                    <div class="hoverable px-4 py-2 bg-[#0f0f1a] rounded-t-lg text-xs text-gray-500" data-tooltip="browser-new-tab">
+                        +
+                    </div>
+                </div>
+                <!-- Address Bar -->
+                <div class="flex items-center gap-3 p-2 bg-[#1a1a2e] rounded-xl">
+                    <div class="hoverable flex items-center gap-2 px-3 py-1.5 rounded-lg" data-tooltip="browser-back">
+                        <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </div>
+                    <div class="hoverable flex-1 px-3 py-1.5 bg-[#0f0f1a] rounded-lg text-xs text-gray-400 mono" data-tooltip="browser-address">
+                        https://github.com/dixi3stdgdl-design/tooltip-ai
+                    </div>
+                    <div class="hoverable px-3 py-1.5 rounded-lg" data-tooltip="browser-extension">
+                        <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    </div>
+                </div>
+                <!-- Content -->
+                <div class="bg-[#1a1a2e] rounded-xl p-4">
+                    <div class="hoverable p-3 rounded-lg" data-tooltip="browser-button-star">
+                        <button class="px-4 py-2 bg-yellow-600 rounded-lg text-xs font-semibold flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                            Star
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `
+    },
+    terminal: {
+        title: 'Terminal — bash',
+        category: 'terminal',
+        categoryLabel: 'TERMINAL',
+        color: '#a855f7',
+        content: `
+            <div class="bg-[#0d1117] rounded-xl p-4 mono text-sm space-y-1">
+                <div class="hoverable" data-tooltip="terminal-prompt">
+                    <span class="text-green-400">$</span> <span class="text-gray-300">python3 server.py</span>
+                </div>
+                <div class="text-gray-500">[WS] WebSocket server running on ws://0.0.0.0:8765</div>
+                <div class="text-gray-500">[HTTP] Server running on http://0.0.0.0:8080</div>
+                <div class="text-gray-500">[WS] Heartbeat started (30s interval)</div>
+                <div class="text-gray-400"></div>
+                <div class="hoverable" data-tooltip="terminal-command">
+                    <span class="text-green-400">$</span> <span class="text-gray-300">curl -s localhost:8080/health | python3 -m json.tool</span>
+                </div>
+                <div class="hoverable text-yellow-300" data-tooltip="terminal-output">
+                    { "status": "ok", "clients": 1, "ws_port": 8765 }
+                </div>
+                <div class="text-gray-400"></div>
+                <div class="hoverable" data-tooltip="terminal-pipe">
+                    <span class="text-green-400">$</span> <span class="text-gray-300">cat server.py | grep "async def" | wc -l</span>
+                </div>
+                <div class="text-blue-400">12</div>
+                <div class="text-gray-400"></div>
+                <div class="hoverable" data-tooltip="terminal-git">
+                    <span class="text-green-400">$</span> <span class="text-gray-300">git log --oneline -3</span>
+                </div>
+                <div class="text-purple-400">d054726 feat: production deployment - Docker, structured logging</div>
+                <div class="text-purple-400">b89f0d5 test: add comprehensive testing suite</div>
+                <div class="text-purple-400">528f694 ci: add GitHub Actions workflows</div>
+                <div class="text-gray-400"></div>
+                <div class="hoverable" data-tooltip="terminal-docker">
+                    <span class="text-green-400">$</span> <span class="text-gray-300">docker compose up -d</span>
+                </div>
+                <div class="text-green-400"> Container mimo-server  Started</div>
+                <div class="text-green-400"> Container mimo-redis   Started</div>
+            </div>
+        `
+    }
+};
+
+const TOOLTIPS = {
+    // Audio
+    'audio-track': { title: 'Audio Track', desc: 'Mono/stereo audio track. Records and plays back audio clips. Click to arm for recording.', gesture: 'Double-click: Rename', tip: 'Use Cmd+D to duplicate' },
+    'audio-fader': { title: 'MIDI Track', desc: 'Handles MIDI input/output. Connects to virtual instruments and hardware synths.', gesture: 'Drag: Reorder', tip: 'Cmd+T: Insert MIDI track' },
+    'audio-knob-threshold': { title: 'Threshold', desc: 'Sets the level above which gain reduction begins. Lower values = more compression applied. Typical range: -20dB to 0dB.', gesture: 'Drag: Adjust value', tip: 'Alt+Click: Reset to default' },
+    'audio-knob-ratio': { title: 'Ratio', desc: 'Determines how much gain reduction is applied once the signal exceeds the threshold. 4:1 is moderate, 20:1 is limiting.', gesture: 'Drag: Adjust ratio', tip: 'Shift+Drag: Fine adjust' },
+    'audio-knob-release': { title: 'Release', desc: 'Time for the compressor to stop reducing gain after the signal falls below threshold. Faster release = more aggressive sound.', gesture: 'Drag: Adjust time', tip: 'Right-click: Enter value' },
+    'audio-device-compressor': { title: 'Compressor Device', desc: 'Dynamic range compressor. Reduces the volume of loud sounds and amplifies quiet sounds. Essential for mixing.', gesture: 'Click: Toggle on/off', tip: 'A/B: Compare processed/unprocessed' },
+    'audio-device-eq': { title: 'EQ Eight', desc: 'Parametric equalizer with 8 bands. Shape the frequency content of your audio signal.', gesture: 'Drag band: Adjust', tip: 'S: Solo a band' },
+    'audio-device-reverb': { title: 'Reverb', desc: 'Simulates acoustic spaces. Add depth and space to dry signals. Pre-delay controls early reflections.', gesture: 'Click: Enable/disable', tip: 'Dry/Wet: Mix amount' },
+    'audio-device-delay': { title: 'Simple Delay', desc: 'Stereo delay with sync. Creates echo effects. Sync modes: time-based or beat-synced to project tempo.', gesture: 'Click: Tap tempo', tip: 'Feedback: Repeat amount' },
+    // Dev
+    'dev-folder': { title: 'Source Folder', desc: 'Contains the main application code. Python modules organized by function (handlers, config, protocol).', gesture: 'Click: Expand/collapse', tip: 'Right-click: New file/folder' },
+    'dev-file-active': { title: 'server.py (Active)', desc: 'Main server file with WebSocket and HTTP handlers. Currently being edited.', gesture: 'Click: Switch tab', tip: 'Cmd+S: Save' },
+    'dev-folder-tests': { title: 'Test Directory', desc: 'Unit and integration tests. Run with pytest. 21 tests covering handlers, protocol, and state.', gesture: 'Click: Expand', tip: 'Run: python -m pytest' },
+    'dev-code-import': { title: 'Python Import', desc: 'Imports the asyncio library for asynchronous I/O. Used for WebSocket handling and subprocess management.', gesture: 'Click: Go to definition', tip: 'Cmd+Click: Navigate' },
+    'dev-code-import2': { title: 'Module Import', desc: 'Imports the HANDLERS dictionary from the handlers package. Maps message types to handler functions.', gesture: 'Click: Go to definition', tip: 'F12: Peek definition' },
+    'dev-code-async': { title: 'Async Function', desc: 'Asynchronous function that handles incoming WebSocket messages. Uses await for non-blocking I/O operations.', gesture: 'Click: Go to definition', tip: 'Cmd+Click: Follow' },
+    'dev-code-handler': { title: 'Handler Lookup', desc: 'Retrieves the appropriate handler function for the message type. Returns None if type is unknown.', gesture: 'Click: Go to definition', tip: 'F2: Rename symbol' },
+    'dev-code-annotation': { title: 'Dataclass Decorator', desc: 'Automatically generates __init__, __repr__, and __eq__ methods for the Session class. Reduces boilerplate.', gesture: 'Click: Go to definition', tip: 'Alt+Enter: Quick fixes' },
+    // Creative
+    'creative-modifier': { title: 'Subdivision Surface', desc: 'Adds geometry by subdividing faces. Increases mesh resolution non-destructively. Level 1-6 controls detail.', gesture: 'Click: Toggle visibility', tip: 'Apply: Make permanent' },
+    'creative-material': { title: 'Principled BSDF', desc: 'Physically-based shader that handles most materials. Combines diffuse, specular, roughness, and metallic in one node.', gesture: 'Click: Edit material', tip: 'Shift+A: Add new material' },
+    'creative-render': { title: 'Render Settings', desc: 'Cycles engine with 128 samples. Higher samples = less noise but longer render time. Use denoising for faster results.', gesture: 'Click: Open panel', tip: 'F12: Render image' },
+    'creative-physics': { title: 'Rigid Body Physics', desc: 'Simulates physical collisions and gravity. Active objects are affected by forces; passive objects act as colliders.', gesture: 'Click: Toggle', tip: 'Space: Play simulation' },
+    // Browser
+    'browser-tab': { title: 'Active Tab', desc: 'Currently viewing the TooltipAI GitHub repository. Tab shows page title and favicon.', gesture: 'Click: Switch tab', tip: 'Cmd+T: New tab' },
+    'browser-new-tab': { title: 'New Tab', desc: 'Opens a new browser tab. Start page shows frequently visited sites and search bar.', gesture: 'Click: Open new tab', tip: 'Cmd+Shift+T: Reopen' },
+    'browser-back': { title: 'Back Button', desc: 'Navigate to the previous page in this tab\'s history. Long-press to see full history.', gesture: 'Click: Go back', tip: 'Alt+Left: Keyboard shortcut' },
+    'browser-address': { title: 'Address Bar', desc: 'Shows the current URL. Type to search or enter a web address. Supports autocomplete and search suggestions.', gesture: 'Click: Select all', tip: 'Cmd+L: Focus address bar' },
+    'browser-extension': { title: 'Extensions Menu', desc: 'Shows installed browser extensions. TooltipAI can be pinned here for quick toggle access.', gesture: 'Click: Open menu', tip: 'Right-click: Pin to toolbar' },
+    'browser-button-star': { title: 'Bookmark Button', desc: 'Saves the current page to your bookmarks. Click again to edit bookmark details or folder location.', gesture: 'Click: Add bookmark', tip: 'Cmd+D: Quick bookmark' },
+    // Terminal
+    'terminal-prompt': { title: 'Shell Prompt', desc: 'Bash shell prompt showing current user and directory. The $ symbol indicates a regular user (not root).', gesture: 'Click: Focus terminal', tip: 'Up arrow: Previous command' },
+    'terminal-command': { title: 'curl Command', desc: 'Sends an HTTP GET request to the /health endpoint. Pipes output to python for pretty-printed JSON.', gesture: 'Click: Select line', tip: 'Cmd+C: Copy selection' },
+    'terminal-output': { title: 'JSON Response', desc: 'Server health check response. Shows status, connected clients, WebSocket port, and server name.', gesture: 'Click: Select', tip: 'Cmd+Shift+C: Copy raw' },
+    'terminal-pipe': { title: 'Pipe Operator', desc: 'Sends stdout of one command as stdin to the next. grep filters lines, wc counts them.', gesture: 'Click: Select', tip: '| : pipe, > : redirect' },
+    'terminal-git': { title: 'Git Log', desc: 'Shows last 3 commits with short hashes and messages. --oneline flag compresses output to one line per commit.', gesture: 'Click: Select', tip: 'git log --graph: Visual' },
+    'terminal-docker': { title: 'Docker Compose', desc: 'Starts containers defined in docker-compose.yml in detached mode. -d flag runs in background.', gesture: 'Click: Select', tip: 'docker ps: List running' }
+};
+
+let currentApp = 'ableton';
+
+function switchApp(appName) {
+    currentApp = appName;
+    const app = APPS[appName];
+    document.getElementById('window-title').textContent = app.title;
+    document.getElementById('app-content').innerHTML = app.content;
+
+    document.querySelectorAll('.app-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.app === appName);
+    });
+
+    // Attach hover listeners
+    document.querySelectorAll('.hoverable[data-tooltip]').forEach(el => {
+        el.addEventListener('mouseenter', showTooltip);
+        el.addEventListener('mouseleave', hideTooltip);
+    });
+}
+
+function showTooltip(e) {
+    const key = e.currentTarget.dataset.tooltip;
+    const data = TOOLTIPS[key];
+    if (!data) return;
+
+    // Remove existing tooltip
+    document.querySelectorAll('.tooltip-box').forEach(t => t.remove());
+
+    const app = APPS[currentApp];
+    const box = document.createElement('div');
+    box.className = 'tooltip-box';
+    box.innerHTML = `
+        <div class="bg-gradient-to-br from-[#1e293b] to-[#0f172a] border border-${app.color}/30 rounded-xl p-4 shadow-2xl">
+            <div class="flex items-center gap-2 mb-2">
+                <span class="category-badge cat-${app.category}">${app.categoryLabel}</span>
+                <span class="text-xs text-gray-400">${data.title}</span>
+            </div>
+            <p class="text-sm text-gray-300 mb-3 leading-relaxed">${data.desc}</p>
+            <div class="flex items-center gap-4 text-xs text-gray-500 border-t border-white/5 pt-2">
+                <span>&#9733; ${data.gesture}</span>
+                <span>&#128161; ${data.tip}</span>
+            </div>
+        </div>
+    `;
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const container = e.currentTarget.closest('.lg\\:col-span-3') || document.body;
+    const containerRect = container.getBoundingClientRect();
+
+    box.style.left = (rect.left - containerRect.left + rect.width / 2) + 'px';
+    box.style.top = (rect.top - containerRect.top) + 'px';
+    box.style.transform = 'translateX(-50%) translateY(-100%)';
+    box.classList.add('visible');
+
+    container.style.position = 'relative';
+    container.appendChild(box);
+}
+
+function hideTooltip() {
+    document.querySelectorAll('.tooltip-box').forEach(t => t.remove());
+}
+
+// Init
+switchApp('ableton');
+
+// Animate waveform
+function animateWaveform() {
+    document.querySelectorAll('.waveform-bar').forEach(bar => {
+        bar.style.height = (Math.random() * 30 + 10) + 'px';
+    });
+}
+setInterval(animateWaveform, 500);
+</script>
+</body>
+</html>
