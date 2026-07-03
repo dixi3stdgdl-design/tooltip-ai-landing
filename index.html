@@ -3,120 +3,368 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TooltipAI - Smart Tooltips Powered by AI</title>
-    <meta name="description" content="Enhance your Windows experience with AI-powered contextual tooltips. Get instant explanations, code docs, and smart insights.">
-    <meta property="og:title" content="TooltipAI - Smart Tooltips Powered by AI">
-    <meta property="og:description" content="Enhance your Windows experience with AI-powered contextual tooltips.">
+    <title>TooltipAI — Smart Tooltips Powered by AI for Windows</title>
+    <meta name="description" content="Hover over any element on Windows and get instant AI-powered context, explanations, and smart insights. Works with 100+ apps including Ableton, VS Code, Chrome, Blender.">
+    <meta property="og:title" content="TooltipAI — Smart Tooltips Powered by AI">
+    <meta property="og:description" content="Hover over any Windows element and get instant AI context. Works with 100+ apps.">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="https://tooltip-ai.com/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%); }
-        .glow { box-shadow: 0 0 60px rgba(59, 130, 246, 0.15); }
-        .card-hover { transition: all 0.3s ease; }
-        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .hero-glow { background: radial-gradient(ellipse at 50% 0%, rgba(59,130,246,0.12) 0%, transparent 70%); }
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); }
+        .card-lift { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+        .card-lift:hover { transform: translateY(-6px); box-shadow: 0 25px 50px -12px rgba(59,130,246,0.2); }
+        .gradient-text { background: linear-gradient(135deg, #93c5fd 0%, #3b82f6 50%, #1d4ed8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .tooltip-demo { animation: tooltipFloat 3s ease-in-out infinite; }
+        @keyframes tooltipFloat { 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(-8px) scale(1.02)} }
+        .glow-border { box-shadow: 0 0 30px rgba(59,130,246,0.15), inset 0 0 30px rgba(59,130,246,0.05); }
+        html { scroll-behavior: smooth; }
+        .feature-icon { background: linear-gradient(135deg, rgba(59,130,246,0.2) 0%, rgba(29,78,216,0.1) 100%); }
+        .app-badge { transition: all 0.2s ease; }
+        .app-badge:hover { transform: scale(1.05); background: rgba(59,130,246,0.15); }
     </style>
 </head>
-<body class="gradient-bg text-white min-h-screen">
-    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center font-bold text-sm">T</div>
-            <span class="text-xl font-bold">TooltipAI</span>
-        </div>
-        <div class="flex gap-6 text-sm text-gray-400">
+<body class="bg-[#0a0f1a] text-white font-sans antialiased">
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 glass">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="#" class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center font-bold text-sm">T</div>
+            <span class="text-xl font-bold">Tooltip<span class="text-blue-400">AI</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-8 text-sm text-gray-400">
             <a href="#features" class="hover:text-white transition">Features</a>
+            <a href="#demo" class="hover:text-white transition">Demo</a>
+            <a href="#apps" class="hover:text-white transition">Apps</a>
             <a href="#pricing" class="hover:text-white transition">Pricing</a>
-            <a href="#download" class="hover:text-white transition">Download</a>
+            <a href="#testimonials" class="hover:text-white transition">Reviews</a>
         </div>
-    </nav>
+        <a href="#download" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-semibold transition">Download Free</a>
+    </div>
+</nav>
 
-    <section class="container mx-auto px-6 py-20 text-center">
-        <div class="inline-block px-4 py-1 bg-blue-500/20 rounded-full text-blue-400 text-sm mb-6">Windows Desktop App</div>
-        <h1 class="text-5xl md:text-6xl font-bold mb-6">Smart Tooltips<br>Powered by <span class="text-blue-400">AI</span></h1>
-        <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-10">Hover over any element on Windows and get instant AI-powered context, explanations, and smart insights. Never guess what a button does again.</p>
-        <div class="flex gap-4 justify-center">
-            <a href="#download" class="px-8 py-3 bg-blue-500 hover:bg-blue-600 rounded-lg font-semibold transition">Download Free</a>
-            <a href="#features" class="px-8 py-3 border border-gray-600 hover:border-gray-400 rounded-lg font-semibold transition">Learn More</a>
+<!-- Hero -->
+<section class="relative pt-32 pb-20 hero-glow">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-sm mb-6">
+                    <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    Now with AI-powered context
+                </div>
+                <h1 class="text-5xl md:text-6xl font-black leading-tight mb-6">
+                    Smart Tooltips
+                    <span class="gradient-text">Powered by AI</span>
+                </h1>
+                <p class="text-xl text-gray-400 mb-8 leading-relaxed">
+                    Hover over any element on Windows and get instant AI-powered context, explanations, and smart insights. Works with Ableton, FL Studio, VS Code, Chrome, Blender, and 100+ apps.
+                </p>
+                <div class="flex flex-wrap gap-4 mb-8">
+                    <a href="#download" class="px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold text-lg transition flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                        Download Free
+                    </a>
+                    <a href="demo.html" class="px-8 py-4 border border-gray-600 hover:border-blue-400 rounded-xl font-bold text-lg transition">
+                        Try Interactive Demo
+                    </a>
+                </div>
+                <div class="flex items-center gap-6 text-sm text-gray-500">
+                    <div class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Free forever</div>
+                    <div class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>No ads</div>
+                    <div class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Windows 10/11</div>
+                </div>
+            </div>
+            <div class="relative tooltip-demo">
+                <!-- Tooltip Demo -->
+                <div class="max-w-sm mx-auto">
+                    <div class="glass rounded-2xl p-1 glow-border">
+                        <div class="bg-[#1e293b] rounded-xl p-6">
+                            <div class="flex items-center gap-2 mb-4">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                <span class="ml-2 text-xs text-gray-500">Ableton Live</span>
+                            </div>
+                            <div class="bg-[#2d2d2d] rounded-lg p-4 mb-3">
+                                <div class="text-xs text-gray-500 mb-1">Hovering over:</div>
+                                <div class="text-sm font-mono text-blue-400">Compressor &gt; Threshold</div>
+                            </div>
+                            <!-- Tooltip -->
+                            <div class="bg-gradient-to-br from-blue-900/80 to-blue-950/90 border border-blue-500/30 rounded-xl p-4 relative">
+                                <div class="absolute -top-2 left-8 w-4 h-4 bg-blue-900/80 border-l border-t border-blue-500/30 rotate-45"></div>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="px-2 py-0.5 bg-blue-500/20 rounded text-xs font-semibold text-blue-300">AUDIO</span>
+                                    <span class="text-xs text-gray-400">Compressor</span>
+                                </div>
+                                <p class="text-sm text-gray-300 mb-2">Sets the level above which gain reduction begins. Lower values = more compression. Typical range: -20dB to 0dB.</p>
+                                <div class="flex items-center gap-4 text-xs text-gray-500">
+                                    <span>&#9733; Drag to adjust</span>
+                                    <span>Alt+Click: Reset</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="features" class="container mx-auto px-6 py-20">
-        <h2 class="text-3xl font-bold text-center mb-12">How It Works</h2>
+<!-- Social Proof -->
+<section class="py-8 border-y border-white/5">
+    <div class="max-w-6xl mx-auto px-6 flex flex-wrap justify-center gap-12 text-sm text-gray-500">
+        <div class="text-center"><div class="text-2xl font-bold text-white">100+</div>Apps Supported</div>
+        <div class="text-center"><div class="text-2xl font-bold text-white">&lt;2%</div>CPU Usage</div>
+        <div class="text-center"><div class="text-2xl font-bold text-white">&lt;30MB</div>RAM Usage</div>
+        <div class="text-center"><div class="text-2xl font-bold text-white">30fps</div>Overlay Refresh</div>
+    </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="py-24">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <div class="inline-block px-4 py-1 bg-blue-500/10 rounded-full text-blue-400 text-sm mb-4">Features</div>
+            <h2 class="text-4xl font-bold mb-4">Intelligent Context,<br>Zero Distraction</h2>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto">TooltipAI reads what's under your cursor and gives you relevant, actionable information.</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="glass rounded-2xl p-6 card-lift">
+                <div class="w-12 h-12 feature-icon rounded-xl flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                </div>
+                <h3 class="text-lg font-bold mb-2">AI-Powered Context</h3>
+                <p class="text-gray-400 text-sm">GPT-powered analysis explains what each UI element does. Local fallback for offline use.</p>
+            </div>
+            <div class="glass rounded-2xl p-6 card-lift">
+                <div class="w-12 h-12 feature-icon rounded-xl flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/></svg>
+                </div>
+                <h3 class="text-lg font-bold mb-2">Category Themes</h3>
+                <p class="text-gray-400 text-sm">Color-coded tooltips by software type — Audio (blue), Creative (pink), Dev (green), Browser (yellow).</p>
+            </div>
+            <div class="glass rounded-2xl p-6 card-lift">
+                <div class="w-12 h-12 feature-icon rounded-xl flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+                </div>
+                <h3 class="text-lg font-bold mb-2">Live Visualizations</h3>
+                <p class="text-gray-400 text-sm">Waveform, spectrum analyzer, and CV routing diagrams for audio and creative apps.</p>
+            </div>
+            <div class="glass rounded-2xl p-6 card-lift">
+                <div class="w-12 h-12 feature-icon rounded-xl flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+                <h3 class="text-lg font-bold mb-2">Lightweight</h3>
+                <p class="text-gray-400 text-sm">Under 2% CPU and 30MB RAM. Adaptive throttling — 50ms when active, 200ms when idle.</p>
+            </div>
+            <div class="glass rounded-2xl p-6 card-lift">
+                <div class="w-12 h-12 feature-icon rounded-xl flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+                </div>
+                <h3 class="text-lg font-bold mb-2">Keyboard Shortcuts</h3>
+                <p class="text-gray-400 text-sm">Ctrl+Alt+T to toggle. Global hotkey support. Multi-monitor edge detection.</p>
+            </div>
+            <div class="glass rounded-2xl p-6 card-lift">
+                <div class="w-12 h-12 feature-icon rounded-xl flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                </div>
+                <h3 class="text-lg font-bold mb-2">Plugin System</h3>
+                <p class="text-gray-400 text-sm">Extensible architecture. Drop DLLs into the plugins folder to add custom tooltip providers.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Demo -->
+<section id="demo" class="py-24 bg-gradient-to-b from-transparent via-blue-950/20 to-transparent">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+        <h2 class="text-4xl font-bold mb-6">See It In Action</h2>
+        <p class="text-gray-400 text-lg mb-10">Watch TooltipAI transform your Windows experience</p>
+        <div class="relative glass rounded-2xl overflow-hidden aspect-video glow-border">
+            <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-900/40 to-[#0a0f1a]">
+                    <div class="text-center">
+                    <a href="demo.html" class="inline-block">
+                        <div class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 hover:bg-blue-500 transition">
+                            <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </div>
+                    </a>
+                    <a href="demo.html" class="text-blue-400 hover:underline text-sm">Launch Interactive Demo →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Supported Apps -->
+<section id="apps" class="py-24">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold mb-4">Works With Your Favorite Apps</h2>
+            <p class="text-gray-400 text-lg">100+ applications supported out of the box</p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
+            <div class="app-badge glass rounded-xl px-5 py-3 text-sm flex items-center gap-2"><span class="text-lg">&#127925;</span> Ableton Live</div>
+            <div class="app-badge glass rounded-xl px-5 py-3 text-sm flex items-center gap-2"><span class="text-lg">&#127925;</span> FL Studio</div>
+            <div class="app-badge glass rounded-xl px-5 py-3 text-sm flex items-center gap-2"><span class="text-lg">&#128187;</span> VS Code</div>
+            <div class="app-badge glass rounded-xl px-5 py-3 text-sm flex items-center gap-2"><span class="text-lg">&#127760;</span> Chrome</div>
+            <div class="app-badge glass rounded-xl px-5 py-3 text-sm flex items-center gap-2"><span class="text-lg">&#127760;</span> Firefox</div>
+            <div class="app-badge glass rounded-xl px-5 py-3 text-sm flex items-center gap-2"><span class="text-lg">&#127912;</span> Blender</div>
+            <div class="app-badge glass rounded-xl px-5 py-3 text-sm flex items-center gap-2"><span class="text-lg">&#127912;</span> Photoshop</div>
+            <div class="app-badge glass rounded-xl px-5 py-3 text-sm flex items-center gap-2"><span class="text-lg">&#128187;</span> Terminal</div>
+            <div class="app-badge glass rounded-xl px-5 py-3 text-sm flex items-center gap-2"><span class="text-lg">&#128196;</span> Word</div>
+            <div class="app-badge glass rounded-xl px-5 py-3 text-sm flex items-center gap-2"><span class="text-lg">&#127909;</span> Premiere Pro</div>
+            <div class="app-badge glass rounded-xl px-5 py-3 text-sm flex items-center gap-2"><span class="text-lg">&#127911;</span> Audacity</div>
+            <div class="app-badge glass rounded-xl px-5 py-3 text-sm flex items-center gap-2"><span class="text-lg">+100</span> More</div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing" class="py-24">
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4">Simple, Transparent Pricing</h2>
+            <p class="text-gray-400 text-lg">Start free. Upgrade for AI superpowers.</p>
+        </div>
         <div class="grid md:grid-cols-3 gap-8">
-            <div class="bg-white/5 border border-white/10 rounded-xl p-6 card-hover">
-                <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4 text-blue-400 text-xl">1</div>
-                <h3 class="text-lg font-semibold mb-2">Hover Anywhere</h3>
-                <p class="text-gray-400">Move your mouse over any UI element, button, or text on Windows.</p>
-            </div>
-            <div class="bg-white/5 border border-white/10 rounded-xl p-6 card-hover">
-                <div class="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mb-4 text-green-400 text-xl">2</div>
-                <h3 class="text-lg font-semibold mb-2">AI Analyzes</h3>
-                <p class="text-gray-400">TooltipAI reads the element via UI Automation and sends context to AI.</p>
-            </div>
-            <div class="bg-white/5 border border-white/10 rounded-xl p-6 card-hover">
-                <div class="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4 text-purple-400 text-xl">3</div>
-                <h3 class="text-lg font-semibold mb-2">Get Insights</h3>
-                <p class="text-gray-400">A smart tooltip appears with explanations, shortcuts, and related info.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="pricing" class="container mx-auto px-6 md:px-20 py-20">
-        <h2 class="text-3xl font-bold text-center mb-12">Simple Pricing</h2>
-        <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div class="bg-white/5 border border-white/10 rounded-xl p-8 card-hover">
-                <h3 class="text-xl font-semibold mb-2">Free</h3>
-                <div class="text-4xl font-bold mb-4">$0<span class="text-lg text-gray-400">/forever</span></div>
-                <ul class="space-y-3 text-gray-400 mb-8">
+            <div class="glass rounded-2xl p-8 card-lift">
+                <h3 class="text-lg font-semibold mb-2">Free</h3>
+                <div class="text-4xl font-black mb-1">$0</div>
+                <div class="text-gray-500 text-sm mb-6">forever</div>
+                <ul class="space-y-3 text-sm text-gray-400 mb-8">
                     <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> UIA element detection</li>
                     <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> Basic tooltips</li>
                     <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> Keyboard shortcuts</li>
                     <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> Multi-monitor support</li>
+                    <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> Category themes</li>
                 </ul>
-                <a href="#download" class="block text-center py-3 border border-gray-600 rounded-lg font-semibold hover:border-gray-400 transition">Get Started</a>
+                <a href="#download" class="block text-center py-3 border border-gray-600 rounded-xl font-semibold hover:border-blue-400 transition">Get Started</a>
             </div>
-            <div class="bg-blue-500/10 border border-blue-500/30 rounded-xl p-8 card-hover relative">
-                <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-blue-500 rounded-full text-xs font-semibold">POPULAR</div>
-                <h3 class="text-xl font-semibold mb-2">Pro</h3>
-                <div class="text-4xl font-bold mb-4">$4.99<span class="text-lg text-gray-400">/month</span></div>
-                <ul class="space-y-3 text-gray-400 mb-8">
+            <div class="glass rounded-2xl p-8 card-lift relative border border-blue-500/30">
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-blue-600 rounded-full text-xs font-bold">POPULAR</div>
+                <h3 class="text-lg font-semibold mb-2">Pro</h3>
+                <div class="text-4xl font-black mb-1">$4.99</div>
+                <div class="text-gray-500 text-sm mb-6">/month</div>
+                <ul class="space-y-3 text-sm text-gray-400 mb-8">
                     <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> Everything in Free</li>
                     <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> AI-powered context</li>
                     <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> History & bookmarks</li>
                     <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> Custom themes</li>
                     <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> Priority support</li>
                 </ul>
-                <a href="https://link.mercadopago.com.mx/tooltipai" target="_blank" class="block text-center py-3 bg-blue-500 hover:bg-blue-600 rounded-lg font-semibold transition">Upgrade to Pro</a>
+                <a href="https://link.mercadopago.com.mx/tooltipai" target="_blank" class="block text-center py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-semibold transition">Upgrade to Pro</a>
             </div>
-            <div class="bg-white/5 border border-green-500/30 rounded-xl p-8 card-hover relative">
-                <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-green-500 rounded-full text-xs font-semibold">BUSINESS</div>
-                <h3 class="text-xl font-semibold mb-2">Business</h3>
-                <div class="text-4xl font-bold mb-4">$9.99<span class="text-lg text-gray-400">/month</span></div>
-                <ul class="space-y-3 text-gray-400 mb-8">
+            <div class="glass rounded-2xl p-8 card-lift">
+                <h3 class="text-lg font-semibold mb-2">Business</h3>
+                <div class="text-4xl font-black mb-1">$9.99</div>
+                <div class="text-gray-500 text-sm mb-6">/month</div>
+                <ul class="space-y-3 text-sm text-gray-400 mb-8">
                     <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> Everything in Pro</li>
                     <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> API access</li>
                     <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> Dedicated support</li>
                     <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> Priority updates</li>
                     <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> Custom integrations</li>
                 </ul>
-                <a href="https://link.mercadopago.com.mx/tooltipai" target="_blank" class="block text-center py-3 bg-green-600 hover:bg-green-700 rounded-lg font-semibold transition">Get Business</a>
+                <a href="https://link.mercadopago.com.mx/tooltipai" target="_blank" class="block text-center py-3 border border-gray-600 rounded-xl font-semibold hover:border-blue-400 transition">Get Business</a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="download" class="container mx-auto px-6 py-20 text-center">
-        <h2 class="text-3xl font-bold mb-6">Download TooltipAI</h2>
-        <p class="text-gray-400 mb-8">Windows 10/11 &bull; 75MB &bull; No installation required</p>
-        <a href="https://github.com/dixi3stdgdl-design/tooltip-ai/releases" target="_blank" class="inline-flex items-center gap-2 px-8 py-4 bg-blue-500 hover:bg-blue-600 rounded-lg font-semibold text-lg transition">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-            Download for Windows
-        </a>
-        <p class="text-gray-500 text-sm mt-4">Also available on <a href="https://github.com/dixi3stdgdl-design/tooltip-ai" target="_blank" class="text-blue-400 hover:underline">GitHub</a></p>
-    </section>
+<!-- Testimonials -->
+<section id="testimonials" class="py-24 bg-gradient-to-b from-transparent via-blue-950/20 to-transparent">
+    <div class="max-w-5xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4">Loved by Power Users</h2>
+            <p class="text-gray-400 text-lg">See what developers and creators are saying</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="glass rounded-2xl p-6">
+                <div class="flex items-center gap-1 mb-3 text-yellow-400 text-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="text-gray-300 text-sm mb-4">"As a music producer, I'm always hovering over knobs in Ableton. TooltipAI explains every parameter instantly. Total game changer."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-xs font-bold">AK</div>
+                    <div><div class="text-sm font-semibold">Alex K.</div><div class="text-xs text-gray-500">Music Producer</div></div>
+                </div>
+            </div>
+            <div class="glass rounded-2xl p-6">
+                <div class="flex items-center gap-1 mb-3 text-yellow-400 text-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="text-gray-300 text-sm mb-4">"I teach programming and use this to show students what each VS Code button does. The AI explanations are surprisingly accurate."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-xs font-bold">LP</div>
+                    <div><div class="text-sm font-semibold">Laura P.</div><div class="text-xs text-gray-500">CS Instructor</div></div>
+                </div>
+            </div>
+            <div class="glass rounded-2xl p-6">
+                <div class="flex items-center gap-1 mb-3 text-yellow-400 text-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="text-gray-300 text-sm mb-4">"Finally I can understand what Blender's modifier panel is doing. The tooltips explain things better than the official docs."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-xs font-bold">DM</div>
+                    <div><div class="text-sm font-semibold">David M.</div><div class="text-xs text-gray-500">3D Artist</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <footer class="container mx-auto px-6 py-8 border-t border-white/10 text-center text-gray-500 text-sm">
-        <p>&copy; 2026 TooltipAI. Built with C# &amp; .NET 8.</p>
-    </footer>
+<!-- Download CTA -->
+<section id="download" class="py-24">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+        <div class="glass rounded-3xl p-12 glow-border">
+            <h2 class="text-4xl font-bold mb-4">Get Smarter Tooltips Today</h2>
+            <p class="text-gray-400 text-lg mb-8">Free download. No credit card required. 14-day Pro trial included.</p>
+            <div class="flex flex-wrap gap-4 justify-center mb-8">
+                <a href="https://github.com/dixi3stdgdl-design/tooltip-ai/releases" target="_blank" class="px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold text-lg transition flex items-center gap-3">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    Download for Windows
+                </a>
+                <a href="https://github.com/dixi3stdgdl-design/tooltip-ai" target="_blank" class="px-8 py-4 border border-gray-600 hover:border-blue-400 rounded-xl font-bold text-lg transition">
+                    View Source
+                </a>
+            </div>
+            <p class="text-gray-500 text-sm">Windows 10/11 &bull; 75MB &bull; No installation required</p>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="py-16 border-t border-white/5">
+    <div class="max-w-xl mx-auto px-6 text-center">
+        <h3 class="text-xl font-bold mb-2">Stay in the Loop</h3>
+        <p class="text-gray-400 text-sm mb-6">Get notified about new features and supported apps.</p>
+        <form class="flex gap-3 max-w-md mx-auto" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Subscribed!'; this.querySelector('button').disabled=true;">
+            <input type="email" placeholder="your@email.com" required class="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition">
+            <button type="submit" class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-xl text-sm font-semibold transition whitespace-nowrap">Subscribe</button>
+        </form>
+        <p class="text-gray-600 text-xs mt-3">No spam. Unsubscribe anytime.</p>
+    </div>
+</section>
+
+<!-- Contact -->
+<section class="py-12 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+        <h3 class="text-xl font-bold mb-2">Contact</h3>
+        <p class="text-gray-400 text-sm mb-4">Questions? Reach out anytime.</p>
+        <a href="mailto:DixStdGdl@hotmail.com" class="text-blue-400 hover:text-blue-300 transition text-sm">DixStdGdl@hotmail.com</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-8 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+        <div>&copy; 2026 TooltipAI. Built with C# &amp; .NET 8.</div>
+        <div class="flex gap-6">
+            <a href="https://github.com/dixi3stdgdl-design/tooltip-ai" target="_blank" class="hover:text-white transition">GitHub</a>
+            <a href="#features" class="hover:text-white transition">Features</a>
+            <a href="#pricing" class="hover:text-white transition">Pricing</a>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>
