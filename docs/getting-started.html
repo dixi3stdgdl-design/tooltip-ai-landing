@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started — TooltipAI</title>
+    <meta name="description" content="Learn how to install, configure, and use TooltipAI on Windows. Step-by-step guide for getting started with AI-powered tooltips.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #0a0f1a; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); }
+        .glow-border { box-shadow: 0 0 30px rgba(59,130,246,0.15), inset 0 0 30px rgba(59,130,246,0.05); }
+        .gradient-text { background: linear-gradient(135deg, #93c5fd 0%, #3b82f6 50%, #1d4ed8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        html { scroll-behavior: smooth; }
+        .step-number { background: linear-gradient(135deg, rgba(59,130,246,0.2) 0%, rgba(29,78,216,0.1) 100%); }
+        .code-block { background: #0d1117; border: 1px solid rgba(255,255,255,0.06); }
+        pre code { font-family: 'JetBrains Mono', monospace; }
+        .content h2 { scroll-margin-top: 100px; }
+    </style>
+</head>
+<body class="text-white antialiased">
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 glass">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="../index.html" class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center font-bold text-sm">T</div>
+            <span class="text-xl font-bold">Tooltip<span class="text-blue-400">AI</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-8 text-sm text-gray-400">
+            <a href="getting-started.html" class="text-white transition">Docs</a>
+            <a href="api.html" class="hover:text-white transition">API</a>
+            <a href="faq.html" class="hover:text-white transition">FAQ</a>
+            <a href="../index.html#features" class="hover:text-white transition">Features</a>
+            <a href="../index.html#pricing" class="hover:text-white transition">Pricing</a>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="../index.html" class="px-4 py-2 text-sm text-gray-300 hover:text-white transition">Home</a>
+            <a href="../index.html#download" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-semibold transition">Download</a>
+        </div>
+    </div>
+</nav>
+
+<main class="pt-28 pb-20">
+    <div class="max-w-4xl mx-auto px-6 content">
+
+        <!-- Header -->
+        <div class="mb-12">
+            <div class="inline-block px-4 py-1 bg-blue-500/10 rounded-full text-blue-400 text-sm mb-4">Documentation</div>
+            <h1 class="text-4xl md:text-5xl font-black mb-4">Getting Started with <span class="gradient-text">TooltipAI</span></h1>
+            <p class="text-gray-400 text-lg">Everything you need to install, configure, and start using TooltipAI on Windows.</p>
+        </div>
+
+        <!-- Table of Contents -->
+        <div class="glass rounded-2xl p-6 mb-12 glow-border">
+            <h2 class="text-lg font-bold mb-4">On This Page</h2>
+            <ul class="space-y-2 text-sm text-gray-400">
+                <li><a href="#requirements" class="hover:text-blue-400 transition">1. System Requirements</a></li>
+                <li><a href="#install" class="hover:text-blue-400 transition">2. Installation</a></li>
+                <li><a href="#first-launch" class="hover:text-blue-400 transition">3. First Launch</a></li>
+                <li><a href="#configure" class="hover:text-blue-400 transition">4. Configuration</a></li>
+                <li><a href="#usage" class="hover:text-blue-400 transition">5. Using TooltipAI</a></li>
+                <li><a href="#shortcuts" class="hover:text-blue-400 transition">6. Keyboard Shortcuts</a></li>
+                <li><a href="#troubleshooting" class="hover:text-blue-400 transition">7. Troubleshooting</a></li>
+                <li><a href="#next-steps" class="hover:text-blue-400 transition">8. Next Steps</a></li>
+            </ul>
+        </div>
+
+        <!-- Section: Requirements -->
+        <section id="requirements" class="mb-16">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                <span class="w-8 h-8 step-number rounded-lg flex items-center justify-center text-blue-400 text-sm font-bold">1</span>
+                System Requirements
+            </h2>
+            <div class="glass rounded-2xl p-6">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-300 mb-3">Required</h3>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> Windows 10 (version 1903+) or Windows 11</li>
+                            <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> 64-bit x86-64 processor</li>
+                            <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> 100 MB disk space</li>
+                            <li class="flex items-center gap-2"><span class="text-green-400">&#10003;</span> Internet connection (for AI features)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-300 mb-3">Recommended</h3>
+                        <ul class="space-y-2 text-sm text-gray-400">
+                            <li class="flex items-center gap-2"><span class="text-blue-400">&#9733;</span> 8 GB+ RAM</li>
+                            <li class="flex items-center gap-2"><span class="text-blue-400">&#9733;</span> Any modern multi-core CPU</li>
+                            <li class="flex items-center gap-2"><span class="text-blue-400">&#9733;</span> Display scaling set to 100% or 125%</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Installation -->
+        <section id="install" class="mb-16">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                <span class="w-8 h-8 step-number rounded-lg flex items-center justify-center text-blue-400 text-sm font-bold">2</span>
+                Installation
+            </h2>
+            <div class="space-y-6">
+                <div class="glass rounded-2xl p-6">
+                    <h3 class="font-bold mb-3">Download</h3>
+                    <p class="text-gray-400 text-sm mb-4">Download the latest release from GitHub or the official website.</p>
+                    <a href="https://github.com/dixi3stdgdl-design/tooltip-ai/releases" target="_blank" class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 rounded-xl text-sm font-semibold transition">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                        Download Latest Release
+                    </a>
+                </div>
+
+                <div class="glass rounded-2xl p-6">
+                    <h3 class="font-bold mb-3">Extract & Run</h3>
+                    <p class="text-gray-400 text-sm mb-4">TooltipAI is portable — no installer required. Extract the ZIP to any folder and run the executable.</p>
+                    <div class="code-block rounded-xl p-4 text-sm">
+                        <pre><code class="text-gray-300"><span class="text-gray-500"># 1. Extract the ZIP to your preferred location</span>
+<span class="text-blue-400">Expand-Archive</span> -Path "$env:USERPROFILE\Downloads\tooltip-ai.zip" -DestinationPath "$env:USERPROFILE\TooltipAI"
+
+<span class="text-gray-500"># 2. Run TooltipAI</span>
+<span class="text-blue-400">Start-Process</span> "$env:USERPROFILE\TooltipAI\TooltipAI.exe"</code></pre>
+                    </div>
+                </div>
+
+                <div class="glass rounded-2xl p-6">
+                    <h3 class="font-bold mb-3">Windows Defender / Antivirus</h3>
+                    <p class="text-gray-400 text-sm">TooltipAI uses Windows UI Automation API to read screen elements. Some antivirus software may flag this behavior. This is expected — TooltipAI does not modify or interact with other applications. You can safely add it to your exclusion list.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: First Launch -->
+        <section id="first-launch" class="mb-16">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                <span class="w-8 h-8 step-number rounded-lg flex items-center justify-center text-blue-400 text-sm font-bold">3</span>
+                First Launch
+            </h2>
+            <div class="glass rounded-2xl p-6">
+                <ol class="space-y-4 text-sm text-gray-400">
+                    <li class="flex gap-3">
+                        <span class="text-blue-400 font-bold shrink-0">a)</span>
+                        <span>When TooltipAI starts for the first time, you'll see a welcome screen with a quick overview of features.</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="text-blue-400 font-bold shrink-0">b)</span>
+                        <span>The app will request accessibility permissions. Click <strong class="text-white">"Allow"</strong> when prompted — this is required for UIA element detection.</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="text-blue-400 font-bold shrink-0">c)</span>
+                        <span>TooltipAI will appear in the system tray (bottom-right corner). Right-click the tray icon for quick access to settings.</span>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="text-blue-400 font-bold shrink-0">d)</span>
+                        <span>Hover over any UI element in any supported app — a smart tooltip will appear with context and explanations.</span>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Section: Configuration -->
+        <section id="configure" class="mb-16">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                <span class="w-8 h-8 step-number rounded-lg flex items-center justify-center text-blue-400 text-sm font-bold">4</span>
+                Configuration
+            </h2>
+            <div class="space-y-6">
+                <div class="glass rounded-2xl p-6">
+                    <h3 class="font-bold mb-3">General Settings</h3>
+                    <p class="text-gray-400 text-sm mb-4">Right-click the tray icon and select <strong class="text-white">Settings</strong> to access configuration options.</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <div class="text-sm font-semibold mb-1">Startup Behavior</div>
+                            <div class="text-xs text-gray-500">Choose whether TooltipAI starts with Windows. Default: enabled.</div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <div class="text-sm font-semibold mb-1">Refresh Rate</div>
+                            <div class="text-xs text-gray-500">Adjust tooltip refresh interval (50ms–500ms). Lower = more responsive, higher = less CPU.</div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <div class="text-sm font-semibold mb-1">Multi-Monitor</div>
+                            <div class="text-xs text-gray-500">Enable or disable tooltip support across multiple displays.</div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <div class="text-sm font-semibold mb-1">Theme</div>
+                            <div class="text-xs text-gray-500">Choose category color themes or enable custom styling.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass rounded-2xl p-6">
+                    <h3 class="font-bold mb-3">AI Configuration</h3>
+                    <p class="text-gray-400 text-sm mb-4">TooltipAI uses AI to generate contextual tooltips. Configure your AI settings:</p>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">&#9679;</span> <span><strong class="text-white">AI Provider:</strong> Use the built-in AI or connect your own OpenAI API key for more powerful explanations.</span></li>
+                        <li class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">&#9679;</span> <span><strong class="text-white">Offline Mode:</strong> When internet is unavailable, TooltipAI falls back to local rule-based tooltips.</span></li>
+                        <li class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">&#9679;</span> <span><strong class="text-white">API Key:</strong> Enter your OpenAI API key in Settings > AI to unlock advanced context. Your key stays local and is never sent to our servers.</span></li>
+                    </ul>
+                </div>
+
+                <div class="glass rounded-2xl p-6">
+                    <h3 class="font-bold mb-3">Account & Subscription</h3>
+                    <p class="text-gray-400 text-sm mb-4">Sign in to your TooltipAI account to manage your subscription and sync settings.</p>
+                    <div class="code-block rounded-xl p-4 text-sm">
+                        <pre><code class="text-gray-300"><span class="text-gray-500"># Via Settings > Account, or use the tray menu:</span>
+<span class="text-blue-400">Sign In</span> → Enter your email and password
+<span class="text-blue-400">Manage Subscription</span> → Opens LemonSqueezy portal</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Usage -->
+        <section id="usage" class="mb-16">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                <span class="w-8 h-8 step-number rounded-lg flex items-center justify-center text-blue-400 text-sm font-bold">5</span>
+                Using TooltipAI
+            </h2>
+            <div class="space-y-6">
+                <div class="glass rounded-2xl p-6">
+                    <h3 class="font-bold mb-3">Basic Usage</h3>
+                    <ol class="space-y-3 text-sm text-gray-400 list-decimal list-inside">
+                        <li>Open any supported application (Ableton, VS Code, Chrome, etc.)</li>
+                        <li>Hover your mouse over any UI element — a button, knob, slider, or menu item</li>
+                        <li>After a brief moment, a smart tooltip appears explaining what the element does</li>
+                        <li>Move the mouse away to dismiss the tooltip</li>
+                    </ol>
+                </div>
+
+                <div class="glass rounded-2xl p-6">
+                    <h3 class="font-bold mb-3">What Tooltips Show</h3>
+                    <div class="grid md:grid-cols-2 gap-4 mt-4">
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <div class="text-sm font-semibold text-blue-300 mb-1">Element Name</div>
+                            <div class="text-xs text-gray-500">The detected UI element (e.g., "Compressor > Threshold")</div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <div class="text-sm font-semibold text-blue-300 mb-1">Category</div>
+                            <div class="text-xs text-gray-500">Color-coded badge: Audio, Dev, Creative, Browser, Terminal</div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <div class="text-sm font-semibold text-blue-300 mb-1">AI Explanation</div>
+                            <div class="text-xs text-gray-500">Contextual description of what the element does</div>
+                        </div>
+                        <div class="bg-white/5 rounded-xl p-4">
+                            <div class="text-sm font-semibold text-blue-300 mb-1">Gestures & Shortcuts</div>
+                            <div class="text-xs text-gray-500">Mouse interactions and keyboard shortcuts for that element</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass rounded-2xl p-6">
+                    <h3 class="font-bold mb-3">Bookmarks & History <span class="text-xs text-blue-400 font-normal ml-2">Pro</span></h3>
+                    <p class="text-gray-400 text-sm">Pro users can save tooltips to bookmarks for quick reference and browse their tooltip history. Access these from the TooltipAI panel or system tray menu.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Shortcuts -->
+        <section id="shortcuts" class="mb-16">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                <span class="w-8 h-8 step-number rounded-lg flex items-center justify-center text-blue-400 text-sm font-bold">6</span>
+                Keyboard Shortcuts
+            </h2>
+            <div class="glass rounded-2xl p-6">
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center py-2 border-b border-white/5">
+                        <span class="text-sm text-gray-300">Toggle tooltips on/off</span>
+                        <kbd class="mono text-xs px-3 py-1 bg-white/5 border border-white/10 rounded-lg">Ctrl + Alt + T</kbd>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-white/5">
+                        <span class="text-sm text-gray-300">Open settings</span>
+                        <kbd class="mono text-xs px-3 py-1 bg-white/5 border border-white/10 rounded-lg">Ctrl + Alt + S</kbd>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-white/5">
+                        <span class="text-sm text-gray-300">Bookmark current tooltip</span>
+                        <kbd class="mono text-xs px-3 py-1 bg-white/5 border border-white/10 rounded-lg">Ctrl + Alt + B</kbd>
+                    </div>
+                    <div class="flex justify-between items-center py-2 border-b border-white/5">
+                        <span class="text-sm text-gray-300">Cycle tooltip position</span>
+                        <kbd class="mono text-xs px-3 py-1 bg-white/5 border border-white/10 rounded-lg">Ctrl + Alt + P</kbd>
+                    </div>
+                    <div class="flex justify-between items-center py-2">
+                        <span class="text-sm text-gray-300">Quit TooltipAI</span>
+                        <kbd class="mono text-xs px-3 py-1 bg-white/5 border border-white/10 rounded-lg">Ctrl + Alt + Q</kbd>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Troubleshooting -->
+        <section id="troubleshooting" class="mb-16">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                <span class="w-8 h-8 step-number rounded-lg flex items-center justify-center text-blue-400 text-sm font-bold">7</span>
+                Troubleshooting
+            </h2>
+            <div class="space-y-4">
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-6 cursor-pointer font-bold text-sm hover:text-blue-400 transition">Tooltips don't appear at all</summary>
+                    <div class="px-6 pb-6 text-sm text-gray-400 space-y-2">
+                        <p>1. Check that TooltipAI is running (look for the tray icon).</p>
+                        <p>2. Verify accessibility permissions are granted in Windows Settings > Privacy & Security > Accessibility.</p>
+                        <p>3. Ensure the target application is supported. TooltipAI works best with Win32 and UWP apps.</p>
+                        <p>4. Try restarting TooltipAI and the target application.</p>
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-6 cursor-pointer font-bold text-sm hover:text-blue-400 transition">Tooltips appear but are wrong or empty</summary>
+                    <div class="px-6 pb-6 text-sm text-gray-400 space-y-2">
+                        <p>1. If using AI tooltips, check your internet connection.</p>
+                        <p>2. If using a custom OpenAI API key, verify it's valid and has quota remaining.</p>
+                        <p>3. The element may not be accessible via UIA — some apps use custom rendering.</p>
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-6 cursor-pointer font-bold text-sm hover:text-blue-400 transition">TooltipAI uses too much CPU</summary>
+                    <div class="px-6 pb-6 text-sm text-gray-400 space-y-2">
+                        <p>1. Increase the refresh rate in Settings > General (e.g., set to 200ms or 500ms).</p>
+                        <p>2. Disable live visualizations if enabled.</p>
+                        <p>3. TooltipAI normally uses under 2% CPU — if it's higher, try restarting.</p>
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-6 cursor-pointer font-bold text-sm hover:text-blue-400 transition">Keyboard shortcuts don't work</summary>
+                    <div class="px-6 pb-6 text-sm text-gray-400 space-y-2">
+                        <p>1. Another application may be using the same shortcut. Check for conflicts.</p>
+                        <p>2. Run TooltipAI as Administrator if targeting elevated windows.</p>
+                        <p>3. Custom shortcuts can be configured in Settings > Shortcuts.</p>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- Section: Next Steps -->
+        <section id="next-steps" class="mb-16">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                <span class="w-8 h-8 step-number rounded-lg flex items-center justify-center text-blue-400 text-sm font-bold">8</span>
+                Next Steps
+            </h2>
+            <div class="grid md:grid-cols-2 gap-4">
+                <a href="api.html" class="glass rounded-2xl p-6 hover:border-blue-500/30 transition block">
+                    <h3 class="font-bold text-blue-400 mb-2">API Documentation</h3>
+                    <p class="text-sm text-gray-400">Build integrations with TooltipAI's backend API.</p>
+                </a>
+                <a href="faq.html" class="glass rounded-2xl p-6 hover:border-blue-500/30 transition block">
+                    <h3 class="font-bold text-blue-400 mb-2">FAQ</h3>
+                    <p class="text-sm text-gray-400">Common questions and answers about TooltipAI.</p>
+                </a>
+                <a href="https://github.com/dixi3stdgdl-design/tooltip-ai" target="_blank" class="glass rounded-2xl p-6 hover:border-blue-500/30 transition block">
+                    <h3 class="font-bold text-blue-400 mb-2">GitHub Repository</h3>
+                    <p class="text-sm text-gray-400">View source code, report issues, and contribute.</p>
+                </a>
+                <a href="mailto:DixStdGdl@hotmail.com" class="glass rounded-2xl p-6 hover:border-blue-500/30 transition block">
+                    <h3 class="font-bold text-blue-400 mb-2">Contact Support</h3>
+                    <p class="text-sm text-gray-400">Get help from the TooltipAI team.</p>
+                </a>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="py-8 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+        <div>&copy; 2026 TooltipAI. Built with C# &amp; .NET 8.</div>
+        <div class="flex gap-6">
+            <a href="../index.html" class="hover:text-white transition">Home</a>
+            <a href="getting-started.html" class="hover:text-white transition">Docs</a>
+            <a href="api.html" class="hover:text-white transition">API</a>
+            <a href="../legal/terms.html" class="hover:text-white transition">Terms</a>
+            <a href="../legal/privacy.html" class="hover:text-white transition">Privacy</a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

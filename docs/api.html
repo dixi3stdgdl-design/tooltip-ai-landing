@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation — TooltipAI</title>
+    <meta name="description" content="Backend API documentation for TooltipAI. Authentication, webhooks, and health check endpoints.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #0a0f1a; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); }
+        .glow-border { box-shadow: 0 0 30px rgba(59,130,246,0.15), inset 0 0 30px rgba(59,130,246,0.05); }
+        .gradient-text { background: linear-gradient(135deg, #93c5fd 0%, #3b82f6 50%, #1d4ed8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        html { scroll-behavior: smooth; }
+        .code-block { background: #0d1117; border: 1px solid rgba(255,255,255,0.06); }
+        pre code { font-family: 'JetBrains Mono', monospace; }
+        .method-get { background: rgba(34,197,94,0.15); color: #86efac; }
+        .method-post { background: rgba(59,130,246,0.15); color: #93c5fd; }
+        .method-put { background: rgba(234,179,8,0.15); color: #fde047; }
+        .method-delete { background: rgba(239,68,68,0.15); color: #fca5a5; }
+        .endpoint-card { scroll-margin-top: 100px; }
+    </style>
+</head>
+<body class="text-white antialiased">
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 glass">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="../index.html" class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center font-bold text-sm">T</div>
+            <span class="text-xl font-bold">Tooltip<span class="text-blue-400">AI</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-8 text-sm text-gray-400">
+            <a href="getting-started.html" class="hover:text-white transition">Docs</a>
+            <a href="api.html" class="text-white transition">API</a>
+            <a href="faq.html" class="hover:text-white transition">FAQ</a>
+            <a href="../index.html#features" class="hover:text-white transition">Features</a>
+            <a href="../index.html#pricing" class="hover:text-white transition">Pricing</a>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="../index.html" class="px-4 py-2 text-sm text-gray-300 hover:text-white transition">Home</a>
+            <a href="../index.html#download" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-semibold transition">Download</a>
+        </div>
+    </div>
+</nav>
+
+<main class="pt-28 pb-20">
+    <div class="max-w-4xl mx-auto px-6">
+
+        <!-- Header -->
+        <div class="mb-12">
+            <div class="inline-block px-4 py-1 bg-blue-500/10 rounded-full text-blue-400 text-sm mb-4">API Reference</div>
+            <h1 class="text-4xl md:text-5xl font-black mb-4">Backend <span class="gradient-text">API Documentation</span></h1>
+            <p class="text-gray-400 text-lg">Complete reference for TooltipAI's REST API endpoints.</p>
+        </div>
+
+        <!-- Base URL -->
+        <div class="glass rounded-2xl p-6 mb-8 glow-border">
+            <h2 class="text-sm font-semibold text-gray-400 mb-2">Base URL</h2>
+            <div class="mono text-lg text-blue-400">https://tooltip-ai.azurewebsites.net</div>
+        </div>
+
+        <!-- Authentication Overview -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Authentication</h2>
+            <p class="text-gray-400 text-sm mb-6">TooltipAI uses JWT (JSON Web Token) based authentication. After registering or logging in, you receive an access token and a refresh token. Include the access token in the <code class="mono text-xs bg-white/5 px-1.5 py-0.5 rounded">Authorization</code> header for authenticated requests.</p>
+            <div class="code-block rounded-xl p-4 text-sm mb-6">
+                <pre><code class="text-gray-300">Authorization: Bearer &lt;your-access-token&gt;</code></pre>
+            </div>
+            <p class="text-gray-400 text-sm">Access tokens expire after 1 hour. Use the refresh token endpoint to obtain a new access token without re-authenticating.</p>
+        </section>
+
+        <!-- Endpoints -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">Endpoints</h2>
+            <div class="space-y-8">
+
+                <!-- POST /api/auth/register -->
+                <div id="register" class="endpoint-card glass rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="method-post mono text-xs font-bold px-3 py-1 rounded-lg">POST</span>
+                        <code class="mono text-sm">/api/auth/register</code>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">Create a new user account.</p>
+                    <h3 class="text-sm font-semibold mb-2">Request Body</h3>
+                    <div class="code-block rounded-xl p-4 text-sm mb-4">
+                        <pre><code class="text-gray-300">{
+    <span class="text-green-400">"email"</span>: <span class="text-yellow-300">"user@example.com"</span>,      <span class="text-gray-500">// required</span>
+    <span class="text-green-400">"password"</span>: <span class="text-yellow-300">"securepassword"</span>,       <span class="text-gray-500">// required, min 8 chars</span>
+    <span class="text-green-400">"displayName"</span>: <span class="text-yellow-300">"John Doe"</span>          <span class="text-gray-500">// optional</span>
+}</code></pre>
+                    </div>
+                    <h3 class="text-sm font-semibold mb-2">Response <span class="text-green-400 text-xs">201 Created</span></h3>
+                    <div class="code-block rounded-xl p-4 text-sm">
+                        <pre><code class="text-gray-300">{
+    <span class="text-green-400">"success"</span>: <span class="text-blue-400">true</span>,
+    <span class="text-green-400">"token"</span>: <span class="text-yellow-300">"eyJhbGciOiJIUzI1NiIs..."</span>,
+    <span class="text-green-400">"refreshToken"</span>: <span class="text-yellow-300">"dGhpcyBpcyBhIHJlZnJl..."</span>,
+    <span class="text-green-400">"email"</span>: <span class="text-yellow-300">"user@example.com"</span>,
+    <span class="text-green-400">"displayName"</span>: <span class="text-yellow-300">"John Doe"</span>
+}</code></pre>
+                    </div>
+                    <h3 class="text-sm font-semibold mb-2 mt-4">Error Response <span class="text-red-400 text-xs">400 / 409</span></h3>
+                    <div class="code-block rounded-xl p-4 text-sm">
+                        <pre><code class="text-gray-300">{
+    <span class="text-green-400">"success"</span>: <span class="text-blue-400">false</span>,
+    <span class="text-green-400">"error"</span>: <span class="text-yellow-300">"Email already registered"</span>
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- POST /api/auth/login -->
+                <div id="login" class="endpoint-card glass rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="method-post mono text-xs font-bold px-3 py-1 rounded-lg">POST</span>
+                        <code class="mono text-sm">/api/auth/login</code>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">Authenticate with email and password.</p>
+                    <h3 class="text-sm font-semibold mb-2">Request Body</h3>
+                    <div class="code-block rounded-xl p-4 text-sm mb-4">
+                        <pre><code class="text-gray-300">{
+    <span class="text-green-400">"email"</span>: <span class="text-yellow-300">"user@example.com"</span>,      <span class="text-gray-500">// required</span>
+    <span class="text-green-400">"password"</span>: <span class="text-yellow-300">"securepassword"</span>       <span class="text-gray-500">// required</span>
+}</code></pre>
+                    </div>
+                    <h3 class="text-sm font-semibold mb-2">Response <span class="text-green-400 text-xs">200 OK</span></h3>
+                    <div class="code-block rounded-xl p-4 text-sm">
+                        <pre><code class="text-gray-300">{
+    <span class="text-green-400">"success"</span>: <span class="text-blue-400">true</span>,
+    <span class="text-green-400">"token"</span>: <span class="text-yellow-300">"eyJhbGciOiJIUzI1NiIs..."</span>,
+    <span class="text-green-400">"refreshToken"</span>: <span class="text-yellow-300">"dGhpcyBpcyBhIHJlZnJl..."</span>,
+    <span class="text-green-400">"email"</span>: <span class="text-yellow-300">"user@example.com"</span>,
+    <span class="text-green-400">"displayName"</span>: <span class="text-yellow-300">"John Doe"</span>
+}</code></pre>
+                    </div>
+                    <h3 class="text-sm font-semibold mb-2 mt-4">Error Response <span class="text-red-400 text-xs">401</span></h3>
+                    <div class="code-block rounded-xl p-4 text-sm">
+                        <pre><code class="text-gray-300">{
+    <span class="text-green-400">"success"</span>: <span class="text-blue-400">false</span>,
+    <span class="text-green-400">"error"</span>: <span class="text-yellow-300">"Invalid email or password"</span>
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- POST /api/auth/refresh -->
+                <div id="refresh" class="endpoint-card glass rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="method-post mono text-xs font-bold px-3 py-1 rounded-lg">POST</span>
+                        <code class="mono text-sm">/api/auth/refresh</code>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">Refresh an expired access token using a refresh token.</p>
+                    <h3 class="text-sm font-semibold mb-2">Request Body</h3>
+                    <div class="code-block rounded-xl p-4 text-sm mb-4">
+                        <pre><code class="text-gray-300">{
+    <span class="text-green-400">"refreshToken"</span>: <span class="text-yellow-300">"dGhpcyBpcyBhIHJlZnJl..."</span>  <span class="text-gray-500">// required</span>
+}</code></pre>
+                    </div>
+                    <h3 class="text-sm font-semibold mb-2">Response <span class="text-green-400 text-xs">200 OK</span></h3>
+                    <div class="code-block rounded-xl p-4 text-sm">
+                        <pre><code class="text-gray-300">{
+    <span class="text-green-400">"success"</span>: <span class="text-blue-400">true</span>,
+    <span class="text-green-400">"token"</span>: <span class="text-yellow-300">"eyJhbGciOiJIUzI1NiIs..."</span>,
+    <span class="text-green-400">"refreshToken"</span>: <span class="text-yellow-300">"bmV3IHJlZnJlc2ggdG9r..."</span>
+}</code></pre>
+                    </div>
+                    <h3 class="text-sm font-semibold mb-2 mt-4">Error Response <span class="text-red-400 text-xs">401</span></h3>
+                    <div class="code-block rounded-xl p-4 text-sm">
+                        <pre><code class="text-gray-300">{
+    <span class="text-green-400">"success"</span>: <span class="text-blue-400">false</span>,
+    <span class="text-green-400">"error"</span>: <span class="text-yellow-300">"Invalid or expired refresh token"</span>
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- GET /api/auth/profile -->
+                <div id="profile" class="endpoint-card glass rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="method-get mono text-xs font-bold px-3 py-1 rounded-lg">GET</span>
+                        <code class="mono text-sm">/api/auth/profile</code>
+                        <span class="text-xs text-yellow-400 ml-2">Auth Required</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">Get the current user's profile information.</p>
+                    <h3 class="text-sm font-semibold mb-2">Headers</h3>
+                    <div class="code-block rounded-xl p-4 text-sm mb-4">
+                        <pre><code class="text-gray-300">Authorization: Bearer &lt;access-token&gt;</code></pre>
+                    </div>
+                    <h3 class="text-sm font-semibold mb-2">Response <span class="text-green-400 text-xs">200 OK</span></h3>
+                    <div class="code-block rounded-xl p-4 text-sm">
+                        <pre><code class="text-gray-300">{
+    <span class="text-green-400">"success"</span>: <span class="text-blue-400">true</span>,
+    <span class="text-green-400">"user"</span>: {
+        <span class="text-green-400">"id"</span>: <span class="text-yellow-300">"usr_abc123"</span>,
+        <span class="text-green-400">"email"</span>: <span class="text-yellow-300">"user@example.com"</span>,
+        <span class="text-green-400">"displayName"</span>: <span class="text-yellow-300">"John Doe"</span>,
+        <span class="text-green-400">"plan"</span>: <span class="text-yellow-300">"pro"</span>,
+        <span class="text-green-400">"createdAt"</span>: <span class="text-yellow-300">"2026-01-15T08:30:00Z"</span>
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- GET /api/auth/check -->
+                <div id="check" class="endpoint-card glass rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="method-get mono text-xs font-bold px-3 py-1 rounded-lg">GET</span>
+                        <code class="mono text-sm">/api/auth/check</code>
+                        <span class="text-xs text-yellow-400 ml-2">Auth Required</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">Check if the current access token is valid. Useful for validating session state.</p>
+                    <h3 class="text-sm font-semibold mb-2">Headers</h3>
+                    <div class="code-block rounded-xl p-4 text-sm mb-4">
+                        <pre><code class="text-gray-300">Authorization: Bearer &lt;access-token&gt;</code></pre>
+                    </div>
+                    <h3 class="text-sm font-semibold mb-2">Response <span class="text-green-400 text-xs">200 OK</span></h3>
+                    <div class="code-block rounded-xl p-4 text-sm">
+                        <pre><code class="text-gray-300">{
+    <span class="text-green-400">"success"</span>: <span class="text-blue-400">true</span>,
+    <span class="text-green-400">"authenticated"</span>: <span class="text-blue-400">true</span>,
+    <span class="text-green-400">"userId"</span>: <span class="text-yellow-300">"usr_abc123"</span>
+}</code></pre>
+                    </div>
+                    <h3 class="text-sm font-semibold mb-2 mt-4">Error Response <span class="text-red-400 text-xs">401</span></h3>
+                    <div class="code-block rounded-xl p-4 text-sm">
+                        <pre><code class="text-gray-300">{
+    <span class="text-green-400">"success"</span>: <span class="text-blue-400">false</span>,
+    <span class="text-green-400">"authenticated"</span>: <span class="text-blue-400">false</span>
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- POST /api/webhooks/lemonsqueezy -->
+                <div id="webhooks" class="endpoint-card glass rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="method-post mono text-xs font-bold px-3 py-1 rounded-lg">POST</span>
+                        <code class="mono text-sm">/api/webhooks/lemonsqueezy</code>
+                        <span class="text-xs text-gray-500 ml-2">Internal / Signature Verified</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">Webhook endpoint for LemonSqueezy subscription events. Handles payment confirmations, subscription updates, and cancellations. Requests must include a valid LemonSqueezy signature header.</p>
+                    <h3 class="text-sm font-semibold mb-2">Headers</h3>
+                    <div class="code-block rounded-xl p-4 text-sm mb-4">
+                        <pre><code class="text-gray-300">X-Signature: &lt;lemonsqueezy-signature&gt;
+Content-Type: application/json</code></pre>
+                    </div>
+                    <h3 class="text-sm font-semibold mb-2">Events Handled</h3>
+                    <div class="space-y-2 text-sm text-gray-400">
+                        <div class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">&#9679;</span> <span><code class="mono text-xs bg-white/5 px-1.5 py-0.5 rounded">subscription_created</code> — Activates Pro/Business features</span></div>
+                        <div class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">&#9679;</span> <span><code class="mono text-xs bg-white/5 px-1.5 py-0.5 rounded">subscription_updated</code> — Handles plan changes</span></div>
+                        <div class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">&#9679;</span> <span><code class="mono text-xs bg-white/5 px-1.5 py-0.5 rounded">subscription_cancelled</code> — Reverts to free tier at period end</span></div>
+                        <div class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">&#9679;</span> <span><code class="mono text-xs bg-white/5 px-1.5 py-0.5 rounded">order_created</code> — Records payment</span></div>
+                    </div>
+                </div>
+
+                <!-- GET /health -->
+                <div id="health" class="endpoint-card glass rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="method-get mono text-xs font-bold px-3 py-1 rounded-lg">GET</span>
+                        <code class="mono text-sm">/health</code>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">Health check endpoint. Returns server status, connected clients, and WebSocket port.</p>
+                    <h3 class="text-sm font-semibold mb-2">Response <span class="text-green-400 text-xs">200 OK</span></h3>
+                    <div class="code-block rounded-xl p-4 text-sm">
+                        <pre><code class="text-gray-300">{
+    <span class="text-green-400">"status"</span>: <span class="text-yellow-300">"ok"</span>,
+    <span class="text-green-400">"clients"</span>: <span class="text-blue-400">1</span>,
+    <span class="text-green-400">"ws_port"</span>: <span class="text-blue-400">8765</span>,
+    <span class="text-green-400">"name"</span>: <span class="text-yellow-300">"tooltip-ai-backend"</span>,
+    <span class="text-green-400">"version"</span>: <span class="text-yellow-300">"1.0.0"</span>
+}</code></pre>
+                    </div>
+                </div>
+
+                <!-- GET /ready -->
+                <div id="ready" class="endpoint-card glass rounded-2xl p-6">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="method-get mono text-xs font-bold px-3 py-1 rounded-lg">GET</span>
+                        <code class="mono text-sm">/ready</code>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">Readiness probe. Returns 200 when the server is ready to accept traffic (used by container orchestrators).</p>
+                    <h3 class="text-sm font-semibold mb-2">Response <span class="text-green-400 text-xs">200 OK</span></h3>
+                    <div class="code-block rounded-xl p-4 text-sm">
+                        <pre><code class="text-gray-300">{
+    <span class="text-green-400">"ready"</span>: <span class="text-blue-400">true</span>
+}</code></pre>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Rate Limits -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Rate Limits</h2>
+            <div class="glass rounded-2xl p-6">
+                <p class="text-gray-400 text-sm mb-4">API requests are rate-limited per account to ensure fair usage:</p>
+                <div class="space-y-2 text-sm text-gray-400">
+                    <div class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">&#9679;</span> <span><strong class="text-white">Authentication endpoints:</strong> 10 requests per minute per IP</span></div>
+                    <div class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">&#9679;</span> <span><strong class="text-white">Profile/Check endpoints:</strong> 60 requests per minute per token</span></div>
+                    <div class="flex items-start gap-2"><span class="text-blue-400 mt-0.5">&#9679;</span> <span><strong class="text-white">Health/Ready:</strong> No limit</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Error Format -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Error Format</h2>
+            <div class="glass rounded-2xl p-6">
+                <p class="text-gray-400 text-sm mb-4">All error responses follow a consistent format:</p>
+                <div class="code-block rounded-xl p-4 text-sm">
+                    <pre><code class="text-gray-300">{
+    <span class="text-green-400">"success"</span>: <span class="text-blue-400">false</span>,
+    <span class="text-green-400">"error"</span>: <span class="text-yellow-300">"Human-readable error message"</span>
+}</code></pre>
+                </div>
+                <div class="mt-4 space-y-2 text-sm text-gray-400">
+                    <div class="flex items-center gap-3">
+                        <span class="mono text-xs px-2 py-0.5 bg-green-500/15 text-green-400 rounded">200</span> Success
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="mono text-xs px-2 py-0.5 bg-green-500/15 text-green-400 rounded">201</span> Created
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="mono text-xs px-2 py-0.5 bg-yellow-500/15 text-yellow-400 rounded">400</span> Bad Request — missing or invalid fields
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="mono text-xs px-2 py-0.5 bg-yellow-500/15 text-yellow-400 rounded">401</span> Unauthorized — invalid or expired token
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="mono text-xs px-2 py-0.5 bg-yellow-500/15 text-yellow-400 rounded">409</span> Conflict — resource already exists (e.g., email taken)
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="mono text-xs px-2 py-0.5 bg-red-500/15 text-red-400 rounded">500</span> Internal Server Error
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="py-8 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+        <div>&copy; 2026 TooltipAI. Built with C# &amp; .NET 8.</div>
+        <div class="flex gap-6">
+            <a href="../index.html" class="hover:text-white transition">Home</a>
+            <a href="getting-started.html" class="hover:text-white transition">Docs</a>
+            <a href="api.html" class="hover:text-white transition">API</a>
+            <a href="../legal/terms.html" class="hover:text-white transition">Terms</a>
+            <a href="../legal/privacy.html" class="hover:text-white transition">Privacy</a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

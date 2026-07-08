@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ — TooltipAI</title>
+    <meta name="description" content="Frequently asked questions about TooltipAI — installation, pricing, privacy, supported apps, and technical details.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #0a0f1a; }
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); }
+        .glow-border { box-shadow: 0 0 30px rgba(59,130,246,0.15), inset 0 0 30px rgba(59,130,246,0.05); }
+        .gradient-text { background: linear-gradient(135deg, #93c5fd 0%, #3b82f6 50%, #1d4ed8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        html { scroll-behavior: smooth; }
+        details summary::-webkit-details-marker { display: none; }
+        details summary { list-style: none; }
+        details[open] summary .chevron { transform: rotate(180deg); }
+        .chevron { transition: transform 0.2s ease; }
+    </style>
+</head>
+<body class="text-white antialiased">
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 glass">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="../index.html" class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center font-bold text-sm">T</div>
+            <span class="text-xl font-bold">Tooltip<span class="text-blue-400">AI</span></span>
+        </a>
+        <div class="hidden md:flex items-center gap-8 text-sm text-gray-400">
+            <a href="getting-started.html" class="hover:text-white transition">Docs</a>
+            <a href="api.html" class="hover:text-white transition">API</a>
+            <a href="faq.html" class="text-white transition">FAQ</a>
+            <a href="../index.html#features" class="hover:text-white transition">Features</a>
+            <a href="../index.html#pricing" class="hover:text-white transition">Pricing</a>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="../index.html" class="px-4 py-2 text-sm text-gray-300 hover:text-white transition">Home</a>
+            <a href="../index.html#download" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-semibold transition">Download</a>
+        </div>
+    </div>
+</nav>
+
+<main class="pt-28 pb-20">
+    <div class="max-w-3xl mx-auto px-6">
+
+        <!-- Header -->
+        <div class="mb-12 text-center">
+            <div class="inline-block px-4 py-1 bg-blue-500/10 rounded-full text-blue-400 text-sm mb-4">FAQ</div>
+            <h1 class="text-4xl md:text-5xl font-black mb-4">Frequently Asked <span class="gradient-text">Questions</span></h1>
+            <p class="text-gray-400 text-lg">Everything you need to know about TooltipAI.</p>
+        </div>
+
+        <!-- General -->
+        <section class="mb-12">
+            <h2 class="text-xl font-bold mb-4 text-blue-400">General</h2>
+            <div class="space-y-3">
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        What is TooltipAI?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        TooltipAI is a Windows desktop application that overlays smart, AI-powered tooltips on top of any UI element you hover over. It uses Windows UI Automation (UIA) to detect elements and generates contextual explanations using AI. It works with 100+ apps including Ableton Live, VS Code, Chrome, Blender, and more.
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        Is TooltipAI free?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        Yes! TooltipAI has a generous free tier that includes UIA element detection, basic tooltips, keyboard shortcuts, and multi-monitor support. Pro ($4.99/mo) adds AI-powered context, history, bookmarks, and custom themes. Business ($9.99/mo) includes API access and dedicated support.
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        Which Windows versions are supported?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        TooltipAI supports Windows 10 (version 1903 and later) and Windows 11. Both x86-64 processors are required.
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        Does TooltipAI slow down my computer?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        TooltipAI is designed to be lightweight. It typically uses under 2% CPU and less than 30MB of RAM. It uses adaptive throttling — polling at 50ms when active and 200ms when idle — to minimize resource usage.
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- Installation & Setup -->
+        <section class="mb-12">
+            <h2 class="text-xl font-bold mb-4 text-blue-400">Installation & Setup</h2>
+            <div class="space-y-3">
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        How do I install TooltipAI?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        TooltipAI is portable — no installer needed. Download the ZIP from our releases page, extract it to any folder, and run <code class="mono text-xs bg-white/5 px-1.5 py-0.5 rounded">TooltipAI.exe</code>. See the <a href="getting-started.html" class="text-blue-400 hover:underline">Getting Started guide</a> for detailed instructions.
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        Why does my antivirus flag TooltipAI?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        TooltipAI uses the Windows UI Automation API to read screen elements, which some antivirus tools interpret as suspicious behavior. This is a false positive — TooltipAI does not modify, inject into, or interact with other applications. You can safely add it to your exclusion list.
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        Do I need admin rights to run TooltipAI?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        No. TooltipAI runs as a regular user process. However, if you want tooltips for elevated (Administrator) windows, you'll need to run TooltipAI as Administrator as well.
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- Features & Usage -->
+        <section class="mb-12">
+            <h2 class="text-xl font-bold mb-4 text-blue-400">Features & Usage</h2>
+            <div class="space-y-3">
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        Which apps are supported?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        TooltipAI supports 100+ applications including Ableton Live, FL Studio, VS Code, Chrome, Firefox, Blender, Photoshop, Premiere Pro, Audacity, Microsoft Word, Windows Terminal, and many more. Any application that exposes UI elements via the Windows UI Automation API will work with TooltipAI.
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        How does the AI context work?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        When you hover over an element, TooltipAI reads its UIA properties (name, type, role, value) and sends them to an AI model to generate a contextual explanation. In offline mode, it falls back to built-in rule-based tooltips. Pro users can use their own OpenAI API key for more detailed responses.
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        What are category themes?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        TooltipAI color-codes tooltips by software category: Audio (blue), Creative (pink), Development (green), Browser (yellow), and Terminal (purple). This makes it easy to identify the context at a glance. Custom themes are available for Pro users.
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        Can I use TooltipAI with multiple monitors?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        Yes! TooltipAI fully supports multi-monitor setups. Tooltips adapt to screen edges to remain visible and properly positioned regardless of which display you're using.
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- Pricing & Account -->
+        <section class="mb-12">
+            <h2 class="text-xl font-bold mb-4 text-blue-400">Pricing & Account</h2>
+            <div class="space-y-3">
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        What's included in the free plan?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        The free plan includes: UIA element detection, basic rule-based tooltips, all keyboard shortcuts, multi-monitor support, category themes, and offline mode. No credit card required.
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        How do I upgrade to Pro?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        Click "Upgrade to Pro" on the <a href="../index.html#pricing" class="text-blue-400 hover:underline">pricing page</a> or from within the TooltipAI app. Payments are processed securely through LemonSqueezy. You can manage your subscription at any time.
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        Can I cancel my subscription?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        Yes. You can cancel your subscription at any time through the LemonSqueezy customer portal. Your Pro features will remain active until the end of your current billing period.
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- Privacy & Security -->
+        <section class="mb-12">
+            <h2 class="text-xl font-bold mb-4 text-blue-400">Privacy & Security</h2>
+            <div class="space-y-3">
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        Does TooltipAI collect my data?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        TooltipAI sends UIA element data (element name, type, and role) to the AI service to generate contextual explanations. No personal files, screenshots, or browsing history are collected. Your OpenAI API key (if provided) stays on your device and is never sent to our servers. See our <a href="../legal/privacy.html" class="text-blue-400 hover:underline">Privacy Policy</a> for full details.
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        Is TooltipAI GDPR compliant?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        Yes. TooltipAI is fully GDPR compliant. We process data lawfully, collect only what's necessary, and respect your rights to access, rectify, and delete your data. See our <a href="../legal/privacy.html" class="text-blue-400 hover:underline">Privacy Policy</a> for complete information.
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden">
+                    <summary class="p-5 cursor-pointer font-bold text-sm flex justify-between items-center hover:text-blue-400 transition">
+                        Is my OpenAI API key safe?
+                        <svg class="w-5 h-5 text-gray-500 chevron shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </summary>
+                    <div class="px-5 pb-5 text-sm text-gray-400">
+                        Yes. Your API key is stored locally on your device and is only used to communicate directly with OpenAI's API. It is never transmitted to TooltipAI's servers. You can remove it at any time from Settings.
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <div class="glass rounded-2xl p-8 text-center glow-border">
+            <h2 class="text-xl font-bold mb-2">Still Have Questions?</h2>
+            <p class="text-gray-400 text-sm mb-4">We're here to help.</p>
+            <a href="mailto:DixStdGdl@hotmail.com" class="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-xl text-sm font-semibold transition">Contact Support</a>
+        </div>
+
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="py-8 border-t border-white/5">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+        <div>&copy; 2026 TooltipAI. Built with C# &amp; .NET 8.</div>
+        <div class="flex gap-6">
+            <a href="../index.html" class="hover:text-white transition">Home</a>
+            <a href="getting-started.html" class="hover:text-white transition">Docs</a>
+            <a href="api.html" class="hover:text-white transition">API</a>
+            <a href="../legal/terms.html" class="hover:text-white transition">Terms</a>
+            <a href="../legal/privacy.html" class="hover:text-white transition">Privacy</a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
