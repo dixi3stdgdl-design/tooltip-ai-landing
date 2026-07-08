@@ -44,9 +44,87 @@
             <a href="#pricing" class="hover:text-white transition">Pricing</a>
             <a href="#testimonials" class="hover:text-white transition">Reviews</a>
         </div>
-        <a href="#download" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-semibold transition">Download Free</a>
+        <div class="flex items-center gap-3">
+            <!-- Auth buttons (shown when logged out) -->
+            <div id="auth-buttons" class="flex items-center gap-3">
+                <button onclick="openAuthModal('login')" class="px-4 py-2 text-sm text-gray-300 hover:text-white transition">Log In</button>
+                <button onclick="openAuthModal('signup')" class="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-semibold transition">Sign Up Free</button>
+            </div>
+            <!-- User menu (shown when logged in) -->
+            <div id="user-menu" class="hidden flex items-center gap-3">
+                <span id="user-name" class="text-sm text-gray-300"></span>
+                <button onclick="logout()" class="px-4 py-2 text-sm text-gray-400 hover:text-white transition">Log Out</button>
+            </div>
+        </div>
     </div>
 </nav>
+
+<!-- Auth Modal -->
+<div id="auth-modal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeAuthModal()"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
+        <div class="glass rounded-2xl p-8 glow-border">
+            <!-- Login Form -->
+            <div id="login-form">
+                <h2 class="text-2xl font-bold mb-2">Welcome Back</h2>
+                <p class="text-gray-400 text-sm mb-6">Log in to your TooltipAI account</p>
+                <form onsubmit="handleLogin(event)">
+                    <div class="mb-4">
+                        <label class="block text-sm text-gray-400 mb-2">Email</label>
+                        <input type="email" id="login-email" required class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition" placeholder="you@example.com">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm text-gray-400 mb-2">Password</label>
+                        <input type="password" id="login-password" required class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition" placeholder="••••••••">
+                    </div>
+                    <div id="login-error" class="hidden mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm"></div>
+                    <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-semibold transition">Log In</button>
+                </form>
+                <p class="text-center text-gray-400 text-sm mt-6">
+                    Don't have an account? <button onclick="switchToSignup()" class="text-blue-400 hover:text-blue-300 transition">Sign Up</button>
+                </p>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="signup-form" class="hidden">
+                <h2 class="text-2xl font-bold mb-2">Create Account</h2>
+                <p class="text-gray-400 text-sm mb-6">Start using TooltipAI for free</p>
+                <form onsubmit="handleSignup(event)">
+                    <div class="mb-4">
+                        <label class="block text-sm text-gray-400 mb-2">Display Name</label>
+                        <input type="text" id="signup-name" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition" placeholder="John Doe">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm text-gray-400 mb-2">Email</label>
+                        <input type="email" id="signup-email" required class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition" placeholder="you@example.com">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm text-gray-400 mb-2">Password</label>
+                        <input type="password" id="signup-password" required minlength="8" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm focus:outline-none focus:border-blue-500 transition" placeholder="Min. 8 characters">
+                    </div>
+                    <div id="signup-error" class="hidden mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm"></div>
+                    <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-semibold transition">Create Account</button>
+                </form>
+                <p class="text-center text-gray-400 text-sm mt-6">
+                    Already have an account? <button onclick="switchToLogin()" class="text-blue-400 hover:text-blue-300 transition">Log In</button>
+                </p>
+            </div>
+
+            <!-- Success State -->
+            <div id="auth-success" class="hidden text-center py-8">
+                <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Welcome!</h3>
+                <p class="text-gray-400 text-sm">You're now logged in to TooltipAI.</p>
+            </div>
+
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+    </div>
+</div>
 
 <!-- Hero -->
 <section class="relative pt-32 pb-20 hero-glow">
@@ -365,6 +443,174 @@
         </div>
     </div>
 </footer>
+
+<!-- Auth JavaScript -->
+<script>
+const API_BASE = 'https://tooltip-ai.azurewebsites.net';
+
+// Check auth state on load
+document.addEventListener('DOMContentLoaded', () => {
+    checkAuthState();
+});
+
+function checkAuthState() {
+    const token = localStorage.getItem('tooltip_ai_token');
+    const user = JSON.parse(localStorage.getItem('tooltip_ai_user') || 'null');
+    
+    if (token && user) {
+        showLoggedIn(user);
+    } else {
+        showLoggedOut();
+    }
+}
+
+function showLoggedIn(user) {
+    document.getElementById('auth-buttons').classList.add('hidden');
+    document.getElementById('user-menu').classList.remove('hidden');
+    document.getElementById('user-name').textContent = user.displayName || user.email;
+}
+
+function showLoggedOut() {
+    document.getElementById('auth-buttons').classList.remove('hidden');
+    document.getElementById('user-menu').classList.add('hidden');
+}
+
+function openAuthModal(mode = 'login') {
+    document.getElementById('auth-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    
+    if (mode === 'signup') {
+        switchToSignup();
+    } else {
+        switchToLogin();
+    }
+}
+
+function closeAuthModal() {
+    document.getElementById('auth-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+    document.getElementById('login-form').classList.remove('hidden');
+    document.getElementById('signup-form').classList.add('hidden');
+    document.getElementById('auth-success').classList.add('hidden');
+    document.getElementById('login-error').classList.add('hidden');
+    document.getElementById('signup-error').classList.add('hidden');
+}
+
+function switchToLogin() {
+    document.getElementById('login-form').classList.remove('hidden');
+    document.getElementById('signup-form').classList.add('hidden');
+}
+
+function switchToSignup() {
+    document.getElementById('login-form').classList.add('hidden');
+    document.getElementById('signup-form').classList.remove('hidden');
+}
+
+async function handleLogin(e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    const errorEl = document.getElementById('login-error');
+    
+    try {
+        const res = await fetch(`${API_BASE}/api/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok || !data.success) {
+            errorEl.textContent = data.error || 'Login failed';
+            errorEl.classList.remove('hidden');
+            return;
+        }
+        
+        // Store token
+        localStorage.setItem('tooltip_ai_token', data.token);
+        localStorage.setItem('tooltip_ai_refresh_token', data.refreshToken);
+        localStorage.setItem('tooltip_ai_user', JSON.stringify({
+            email: data.email,
+            displayName: data.displayName
+        }));
+        
+        // Show success
+        document.getElementById('login-form').classList.add('hidden');
+        document.getElementById('auth-success').classList.remove('hidden');
+        
+        setTimeout(() => {
+            closeAuthModal();
+            showLoggedIn({ email: data.email, displayName: data.displayName });
+        }, 1500);
+        
+    } catch (err) {
+        errorEl.textContent = 'Network error. Please try again.';
+        errorEl.classList.remove('hidden');
+    }
+}
+
+async function handleSignup(e) {
+    e.preventDefault();
+    const name = document.getElementById('signup-name').value;
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+    const errorEl = document.getElementById('signup-error');
+    
+    try {
+        const res = await fetch(`${API_BASE}/api/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                email, 
+                password, 
+                displayName: name || undefined 
+            })
+        });
+        
+        const data = await res.json();
+        
+        if (!res.ok || !data.success) {
+            errorEl.textContent = data.error || 'Registration failed';
+            errorEl.classList.remove('hidden');
+            return;
+        }
+        
+        // Store token
+        localStorage.setItem('tooltip_ai_token', data.token);
+        localStorage.setItem('tooltip_ai_refresh_token', data.refreshToken);
+        localStorage.setItem('tooltip_ai_user', JSON.stringify({
+            email: data.email,
+            displayName: data.displayName
+        }));
+        
+        // Show success
+        document.getElementById('signup-form').classList.add('hidden');
+        document.getElementById('auth-success').classList.remove('hidden');
+        
+        setTimeout(() => {
+            closeAuthModal();
+            showLoggedIn({ email: data.email, displayName: data.displayName });
+        }, 1500);
+        
+    } catch (err) {
+        errorEl.textContent = 'Network error. Please try again.';
+        errorEl.classList.remove('hidden');
+    }
+}
+
+function logout() {
+    localStorage.removeItem('tooltip_ai_token');
+    localStorage.removeItem('tooltip_ai_refresh_token');
+    localStorage.removeItem('tooltip_ai_user');
+    showLoggedOut();
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeAuthModal();
+});
+</script>
 
 </body>
 </html>
